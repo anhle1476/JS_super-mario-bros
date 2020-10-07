@@ -17,13 +17,7 @@ export default class Entity {
     return buffer;
   }
 
-  update() {
-    this.pos.x += this.vel.x;
-    this.pos.y += this.vel.y;
-  }
-
   draw(ctx) {
-    console.log("ok");
     ctx.drawImage(this.buffer, this.pos.x * 16, this.pos.y * 16);
   }
 }
