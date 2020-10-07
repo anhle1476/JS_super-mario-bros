@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Mario</title>
+    <style>
+      body {
+        background-color: #000000;
+        margin: 0;
+      }
+
+      #screen {
+        display: block;
+        image-rendering: pixelated;
+        height: 95vh;
+        margin: auto;
+      }
+      #stops {
+        padding: 20px;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="stop">STOP</button>
+    <canvas id="screen" width="390" height="240"></canvas>
+  </body>
+  <script type="module" src="./js/main.js"></script>
+</html>
