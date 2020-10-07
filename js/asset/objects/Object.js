@@ -10,11 +10,11 @@ export default class Object {
   }
 
   createObjectBuffer(spriteSheet, width, height) {
-    const [buffer, context] = createBuffer(width, height);
+    const [buffer, context] = createBuffer(width * 16, height * 16);
 
     for (let x = 0; x < this.size.width; x++) {
       for (let y = 0; y < this.size.height; y++) {
-        spriteSheet.draw(this.name, context, x, y);
+        spriteSheet.drawTile(this.name, context, x, y);
       }
     }
 
@@ -22,6 +22,6 @@ export default class Object {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.buffer, this.pos.x, this.pos.y);
+    ctx.drawImage(this.buffer, this.pos.x * 16, this.pos.y * 16);
   }
 }
