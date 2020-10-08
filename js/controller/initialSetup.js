@@ -1,5 +1,7 @@
 import Compositor from "./compositor/Compositor.js";
 import UpdateCenter from "./updateCenter/UpdateCenter.js";
+import CollisionDetector from "./collision/CollisionDetector.js";
+
 import { createLayer } from "./layers/createLayer.js";
 
 import Sky from "../asset/objects/background/Sky.js";
@@ -25,5 +27,9 @@ export function initialSetup(ctx, bgSprite, marioSprite) {
   const updateCenter = new UpdateCenter();
   updateCenter.addObject(mario);
 
-  return { compositor, updateCenter };
+  // create collision Detect
+  const collisionDetector = new CollisionDetector(mario);
+  collisionDetector.addObstacles(ground);
+
+  return { compositor, updateCenter, collisionDetector };
 }

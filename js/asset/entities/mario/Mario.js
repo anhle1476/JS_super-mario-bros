@@ -7,8 +7,9 @@ export default class Mario extends Entity {
   }
 
   update() {
+    this.vel.y += GAME_CONST.GRAVITY;
+
     this.pos.x += this.vel.x;
     this.pos.y += this.vel.y;
-    this.vel.y += GAME_CONST.GRAVITY;
   }
 }
