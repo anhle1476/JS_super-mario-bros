@@ -1,4 +1,4 @@
-import { DIRECTION } from "../../math/direction.js";
+import { COLLISION } from "../../math/collision.js";
 
 export default class CollisionDetector {
   constructor(entity) {
@@ -35,6 +35,8 @@ export default class CollisionDetector {
   run() {
     const [entX0, entY0, entX1, entY1] = this.getEntPosition(this.entity);
 
+    let isJumping = true;
+
     for (const obstacle of this.obstacles) {
       const [obsX0, obsY0, obsX1, obsY1] = this.getObsPosition(obstacle);
 
@@ -42,31 +44,28 @@ export default class CollisionDetector {
         continue;
       }
 
-      if (entY1 - obsY0 < 0.1) {
-        console.log("top");
-        obstacle.collide(DIRECTION.TOP, this.entity);
-        continue;
-      }
-
       if (obsY1 - entY0 < 0.1) {
         console.log("bottom");
-        obstacle.collide(DIRECTION.BOTTOM, this.entity);
+        obstacle.collide(COLLISION.BOTTOM, this.entity);
         continue;
       }
 
       if (entX1 - obsX0 < 0.1) {
         console.log("left");
-        obstacle.collide(DIRECTION.LEFT, this.entity);
+        obstacle.collide(COLLISION.LEFT, this.entity);
         continue;
       }
 
       if (obsX1 - entX0 < 0.1) {
         console.log("right");
-        obstacle.collide(DIRECTION.RIGHT, this.entity);
+        obstacle.collide(COLLISION.RIGHT, this.entity);
         continue;
       }
 
-      console.log("inside");
+      obstacle.collide(COLLISION.TOP, this.entity);
+      isJumping = false;
     }
+
+    this.entity.isJump = isJumping;
   }
 }

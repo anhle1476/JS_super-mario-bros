@@ -1,7 +1,8 @@
 import { GAME_CONST } from "./math/gameConst.js";
 
 export default class Timer {
-  constructor(compositor, updateCenter, collisionDetector) {
+  constructor(game, compositor, updateCenter, collisionDetector) {
+    this.game = game;
     this.compositor = compositor;
     this.updateCenter = updateCenter;
     this.collisionDetector = collisionDetector;
@@ -23,9 +24,9 @@ export default class Timer {
     while (this._accumulatedTime > GAME_CONST.DELTA_TIME) {
       this._accumulatedTime -= GAME_CONST.DELTA_TIME;
 
+      this.game.updateFrames();
       this.updateCenter.updateObjects();
       this.compositor.drawLayers();
-
       this.collisionDetector.run();
     }
 

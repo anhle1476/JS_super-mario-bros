@@ -1,4 +1,4 @@
-import { Vector, Size } from "../../math/Characterizes.js";
+import { Vector, Size } from "../../math/characterizes.js";
 import { createBuffer } from "../../utilities/createBuffer.js";
 
 export default class Object {
