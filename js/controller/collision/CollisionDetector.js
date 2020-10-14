@@ -21,9 +21,9 @@ export default class CollisionDetector {
 
   getEntPosition(mario) {
     return [
-      mario.pos.x,
+      mario.pos.x + 0.1,
       mario.pos.y + 1 - mario.size.height,
-      mario.pos.x + mario.size.width,
+      mario.pos.x + mario.size.width - 0.1,
       mario.pos.y + mario.size.height,
     ];
   }
