@@ -10,6 +10,10 @@ import {
 
 const ctx = document.getElementById("screen").getContext("2d");
 
+ctx.mozImageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
+
 const game = new Game();
 
 Promise.all([

@@ -9,6 +9,7 @@ export function loadBackgroundSprite(game) {
     bgSprite.defineTile("ground", 0, 0);
 
     bgSprite.defineTile("brick", 1, 0);
+    bgSprite.defineTile("rock", 0, 1);
 
     bgSprite.defineTile("coin-box-3", 24, 0);
     bgSprite.defineTile("coin-box-2", 25, 0);
