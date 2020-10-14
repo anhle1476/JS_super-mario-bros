@@ -1,4 +1,5 @@
 import Ground from "../ground/Ground.js";
+import Pipe from "../pipe/Pipe.js";
 
 export function unbreakableFactory(data, sprite) {
   const objects = [];
@@ -8,6 +9,11 @@ export function unbreakableFactory(data, sprite) {
       case "ground":
         items.set.forEach(([x, y, width, height]) => {
           objects.push(new Ground(sprite, x, y, width, height));
+        });
+        break;
+      case "vertical-pipe":
+        items.set.forEach(([x, y, height]) => {
+          objects.push(new Pipe(sprite, x, y, height));
         });
         break;
       default:

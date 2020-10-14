@@ -8,7 +8,11 @@ export default class SpriteSheet {
   }
 
   defineTile(name, sX, sY) {
-    this.define(name, sX * 16, sY * 16, 16, 16);
+    this.define(name, sX * 16, sY * 16, 1, 1);
+  }
+
+  defineTileWithSize(name, sX, sY, width, height) {
+    this.define(name, sX * 16, sY * 16, width, height);
   }
 
   _drawImageToBuffer(context, sX, sY, width, height) {

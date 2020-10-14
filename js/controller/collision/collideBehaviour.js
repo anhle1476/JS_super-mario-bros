@@ -1,4 +1,4 @@
-import {GAME_CONST} from '../../math/gameConst.js'
+import { GAME_CONST } from "../../math/gameConst.js";
 
 export function normalCollideTop(obj, entity) {
   entity.pos.y = obj.pos.y - 1;
@@ -17,5 +17,5 @@ export function normalCollideRight(obj, entity) {
 
 export function normalCollideLeft(obj, entity) {
   entity.pos.x = obj.pos.x - 1.01;
-  entity.vel.x = 0; 
+  entity.vel.x = 0;
 }

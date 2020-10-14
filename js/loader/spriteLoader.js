@@ -7,6 +7,8 @@ export function loadBackgroundSprite(game) {
     const bgSprite = new SpriteSheet(game, image);
     bgSprite.defineTile("ground", 0, 0);
     bgSprite.defineTile("brick", 1, 0);
+    bgSprite.defineTileWithSize("vertical-pipe-head", 0, 8, 2, 1);
+    bgSprite.defineTileWithSize("vertical-pipe-body", 0, 9, 2, 1);
     bgSprite.defineTile("sky", 3, 23);
 
     return bgSprite;

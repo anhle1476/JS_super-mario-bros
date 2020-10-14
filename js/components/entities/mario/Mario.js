@@ -17,12 +17,12 @@ export default class Mario extends Entity {
 
     if (this.action === ACTION.MOVE) {
       // move right & < max velX
-      if (this.direction === DIRECTION.RIGHT && this.vel.x < 0.16) {
-        this.vel.x += 0.02;
+      if (this.direction === DIRECTION.RIGHT && this.vel.x < 0.13) {
+        this.vel.x += 0.015;
       }
       // move left & < max velX
-      if (this.direction === DIRECTION.LEFT && this.vel.x > -0.16) {
-        this.vel.x -= 0.02;
+      if (this.direction === DIRECTION.LEFT && this.vel.x > -0.13) {
+        this.vel.x -= 0.015;
       }
     } else {
       // stop running (moving to idle)
