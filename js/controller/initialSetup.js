@@ -1,31 +1,14 @@
 import Compositor from "./compositor/Compositor.js";
 import UpdateCenter from "./updateCenter/UpdateCenter.js";
 import CollisionDetector from "./collision/CollisionDetector.js";
-
-import { setUpKeyboard } from "../input/keyboard/setupKeyboard.js";
-
-import { createLayer } from "./layers/createLayer.js";
 import Mario from "../components/entities/mario/Mario.js";
-
-// import Sky from "../components/objects/background/Sky.js";
-// import Ground from "../components/objects/ground/Ground.js";
-// import {createBrickSet} from '../components/objects/brick/createBrickSet.js'
 
 import { bgFactory } from "../components/objects/factory/bgFactory.js";
 import { unbreakableFactory } from "../components/objects/factory/unbreakableFactory.js";
 import { breakableFactory } from "../components/objects/factory/breakableFactory.js";
 
-const brickPos = [
-  [5, 9],
-  [6, 9],
-  [7, 9],
-  [8, 9],
-  [9, 9],
-  [5, 8],
-  [6, 8],
-  [7, 8],
-  [8, 8],
-];
+import { setUpKeyboard } from "../input/keyboard/setupKeyboard.js";
+import { createLayer } from "./layers/createLayer.js";
 
 export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
   // create objects
