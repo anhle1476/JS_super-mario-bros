@@ -20,30 +20,11 @@ Promise.all([
   const { compositor, updateCenter, collisionDetector } = initialSetup(
     ctx,
     bgSprite,
-    marioSprite
+    marioSprite,
+    levelData
   );
 
   const timer = new Timer(game, compositor, updateCenter, collisionDetector);
 
   timer.start();
 });
-
-/**
- * NEXT:
- *  - CollisionDetect: ok
- *    + obstacles[]
- *    + entities = Mario
- *    + getBounding() => x0, y0, x1, y1
- *    + outOfRange()
- *    + detect([mBound], [oBound])
- *
- *  - Mario State
- *    + isJump = boolean
- *    + hitTop()
- *    + direction: LEFT, RIGHT
- *    + action: IDLE, MOVE
- *    + change update() base on direction & action
- *
- *  - Keyboard
- *    + keyCode -> currentKey + callback -> change State
- **/

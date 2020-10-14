@@ -5,31 +5,42 @@ import CollisionDetector from "./collision/CollisionDetector.js";
 import { setUpKeyboard } from "../input/keyboard/setupKeyboard.js";
 
 import { createLayer } from "./layers/createLayer.js";
-
-import Sky from "../components/objects/background/Sky.js";
-import Ground from "../components/objects/ground/Ground.js";
 import Mario from "../components/entities/mario/Mario.js";
-import {createBrickSet} from '../components/objects/brick/createBrickSet.js'
 
-const brickPos =  [[5, 9], [6, 9], [7, 9], [8, 9], [9, 9], [5, 8], [6, 8], [7, 8], [8, 8]]
+// import Sky from "../components/objects/background/Sky.js";
+// import Ground from "../components/objects/ground/Ground.js";
+// import {createBrickSet} from '../components/objects/brick/createBrickSet.js'
 
-export function initialSetup(ctx, bgSprite, marioSprite) {
+import { bgFactory } from "../components/objects/factory/bgFactory.js";
+import { unbreakableFactory } from "../components/objects/factory/unbreakableFactory.js";
+import { breakableFactory } from "../components/objects/factory/breakableFactory.js";
+
+const brickPos = [
+  [5, 9],
+  [6, 9],
+  [7, 9],
+  [8, 9],
+  [9, 9],
+  [5, 8],
+  [6, 8],
+  [7, 8],
+  [8, 8],
+];
+
+export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
   // create objects
-  const ground = new Ground(bgSprite, 0, 13, 25, 2);
-  const sky = new Sky(bgSprite, 0, 0, 25, 13);
-  const bricksSet = createBrickSet(bgSprite,brickPos)
-  const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
+  const backgroundObj = bgFactory(levelData.background, bgSprite);
+  const breakableObj = breakableFactory(levelData.breakable, bgSprite);
+  const unbreakableObj = unbreakableFactory(levelData.unbreakable, bgSprite);
 
-  // create layers
-  const backgroundLayer = createLayer([sky, ground]);
-  const marioLayer = createLayer([mario]);
-  const bricksLayer = createLayer(bricksSet);
+  const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
 
   // create compositor
   const compositor = new Compositor(ctx);
-  compositor.addLayer(backgroundLayer);
-  compositor.addLayer(bricksLayer);
-  compositor.addLayer(marioLayer);
+  compositor.addLayer(createLayer(backgroundObj));
+  compositor.addLayer(createLayer(breakableObj));
+  compositor.addLayer(createLayer(unbreakableObj));
+  compositor.addLayer(createLayer([mario]));
 
   // create updateCenter
   const updateCenter = new UpdateCenter();
@@ -37,8 +48,8 @@ export function initialSetup(ctx, bgSprite, marioSprite) {
 
   // create collision Detect
   const collisionDetector = new CollisionDetector(mario);
-  collisionDetector.addUnbreakable(ground);
-  collisionDetector.addBreakableSet(bricksSet)
+  collisionDetector.addUnbreakableSet(unbreakableObj);
+  collisionDetector.addBreakableSet(breakableObj);
 
   setUpKeyboard(mario);
 

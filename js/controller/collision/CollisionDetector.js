@@ -11,12 +11,12 @@ export default class CollisionDetector {
     this.entity = entity;
   }
 
-  addUnbreakable(object) {
-    this.unbreakable.push(object);
+  addUnbreakableSet(objectsSet) {
+    this.unbreakable = [...this.unbreakable, ...objectsSet];
   }
 
   addBreakableSet(objectsSet) {
-    this.breakable = [this.breakable, ...objectsSet];
+    this.breakable = [...this.breakable, ...objectsSet];
   }
 
   getEntPosition(mario) {
@@ -34,27 +34,26 @@ export default class CollisionDetector {
     let isJumping = true;
 
     // for Unbreakable Object
-    this.unbreakable.forEach(object => {
-      if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object)
-      ) isJumping = false;
-    })
+    this.unbreakable.forEach((object) => {
+      if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object))
+        isJumping = false;
+    });
 
     // for Breakable Object
     let removeIndex = -1;
 
     this.breakable.forEach((object, index) => {
       if (object.isExist) {
-        if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object)
-        ) isJumping = false;
+        if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object))
+          isJumping = false;
       } else {
-        removeIndex = index
+        removeIndex = index;
       }
-    })
+    });
 
     if (removeIndex >= 0) {
-      this.breakable.splice(removeIndex, 1)
+      this.breakable.splice(removeIndex, 1);
     }
-
 
     this.entity.isJump = isJumping;
   }
@@ -70,7 +69,7 @@ export default class CollisionDetector {
 
   detectCollideReturnIsJump(entX0, entY0, entX1, entY1, obstacle) {
     const [obsX0, obsY0, obsX1, obsY1] = this.getObsPosition(obstacle);
-  
+
     if (entY1 < obsY0 || entY0 > obsY1 || entX1 < obsX0 || entX0 > obsX1) {
       return true;
     }
@@ -81,7 +80,7 @@ export default class CollisionDetector {
         obstacle.collide(COLLISION.LEFT, this.entity);
         return true;
       }
-  
+
       if (obsX1 - entX0 < 0.1) {
         console.log("right");
         obstacle.collide(COLLISION.RIGHT, this.entity);
@@ -94,10 +93,8 @@ export default class CollisionDetector {
       obstacle.collide(COLLISION.BOTTOM, this.entity);
       return true;
     }
-  
+
     obstacle.collide(COLLISION.TOP, this.entity);
     return false;
   }
 }
-
-
