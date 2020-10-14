@@ -76,20 +76,20 @@ export default class CollisionDetector {
 
     if (entY1 - obsY0 > 0.1) {
       if (entX1 - obsX0 < 0.15) {
-        console.log("left");
+        // console.log("left");
         obstacle.collide(COLLISION.LEFT, this.entity);
         return true;
       }
 
       if (obsX1 - entX0 < 0.15) {
-        console.log("right");
+        // console.log("right");
         obstacle.collide(COLLISION.RIGHT, this.entity);
         return true;
       }
     }
 
     if (obsY1 - entY0 < 0.5) {
-      console.log("bottom");
+      // console.log("bottom");
       obstacle.collide(COLLISION.BOTTOM, this.entity);
       return true;
     }

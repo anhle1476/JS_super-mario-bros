@@ -21,7 +21,7 @@ export function setUpKeyboard(mario) {
 
   function jump() {
     if (!mario.isJump) {
-      mario.vel.y -= 0.45;
+      mario.vel.y -= 0.42;
     }
   }
 

@@ -14,6 +14,9 @@ export function loadBackgroundSprite(game) {
     bgSprite.defineTile("coin-box-2", 25, 0);
     bgSprite.defineTile("coin-box-1", 26, 0);
     bgSprite.defineTile("coin-box-0", 27, 0);
+    bgSprite.defineTile("coin-3", 24, 1);
+    bgSprite.defineTile("coin-2", 25, 1);
+    bgSprite.defineTile("coin-1", 26, 1);
 
     bgSprite.defineTileWithSize("vertical-pipe-head", 0, 8, 2, 1);
     bgSprite.defineTileWithSize("vertical-pipe-body", 0, 9, 2, 1);
@@ -47,7 +50,7 @@ export function loadBackgroundSprite(game) {
  * 13: jump_left
  */
 
-const marionAnimation = {
+const marioAnimation = {
   0: [[275, 44]],
   1: [
     [290, 44],
@@ -71,7 +74,7 @@ export function loadMarioSprite(game) {
   return loadImage("./img/characters.gif").then((image) => {
     const marioSprite = new SpriteSheet(game, image);
 
-    marioSprite.defineAnimation("mario", marionAnimation, 1, 1);
+    marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
 
     return marioSprite;
   });
