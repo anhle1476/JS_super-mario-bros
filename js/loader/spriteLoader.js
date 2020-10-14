@@ -6,6 +6,7 @@ export function loadBackgroundSprite(game) {
   return loadImage("./img/tiles.png").then((image) => {
     const bgSprite = new SpriteSheet(game, image);
     bgSprite.defineTile("ground", 0, 0);
+    bgSprite.defineTile("brick", 1, 0);
     bgSprite.defineTile("sky", 3, 23);
 
     return bgSprite;

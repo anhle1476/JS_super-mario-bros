@@ -10,7 +10,8 @@ export default class Object {
   }
 
   createObjectBuffer(spriteSheet, width, height) {
-    const [buffer, context] = createBuffer(width * 16, height * 16);
+    const [buffer, context] = createBuffer(width, height);
+
 
     for (let x = 0; x < this.size.width; x++) {
       for (let y = 0; y < this.size.height; y++) {

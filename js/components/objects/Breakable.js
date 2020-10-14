@@ -1,13 +1,12 @@
-import Object from "./Object.js";
+import Object from './Object.js'
 import { COLLISION } from "../../math/collision.js";
 
 import {normalCollideTop, normalCollideBottom, normalCollideLeft, normalCollideRight} from '../../controller/collision/collideBehaviour.js'
 
-export default class Unbreakable extends Object {
+export default class Breakable extends Object {
   constructor(spriteSheet, name, posX, posY, width, height) {
     super(spriteSheet, name, posX, posY, width, height);
-
-
+    this.isExist = true;
   }
 
   collide(collisionDirection, entity) {
@@ -16,13 +15,20 @@ export default class Unbreakable extends Object {
         normalCollideTop(this, entity)
         break;
       case COLLISION.BOTTOM:
-        normalCollideBottom(this, entity)
+        normalCollideBottom(this, entity);
+        this.isExist = false;
         break;
       case COLLISION.RIGHT:
         normalCollideRight(this, entity)
         break;
       case COLLISION.LEFT:
         normalCollideLeft(this, entity)
+    }
+  }
+
+  draw(ctx) {
+    if (this.isExist) {
+      ctx.drawImage(this.buffer, this.pos.x * 16, this.pos.y * 16);
     }
   }
 }
