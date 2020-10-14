@@ -1,6 +1,7 @@
 export default class Compositor {
-  constructor(ctx) {
+  constructor(ctx, viewPort) {
     this.ctx = ctx;
+    this.viewPort = viewPort;
     this.layers = [];
   }
 
@@ -9,6 +10,8 @@ export default class Compositor {
   }
 
   drawLayers() {
-    this.layers.forEach((layer) => layer.drawObjects(this.ctx));
+    this.layers.forEach((layer) =>
+      layer.drawObjects(this.ctx, this.viewPort.base)
+    );
   }
 }

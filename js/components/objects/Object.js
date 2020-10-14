@@ -12,7 +12,6 @@ export default class Object {
   createObjectBuffer(spriteSheet, width, height) {
     const [buffer, context] = createBuffer(width, height);
 
-
     for (let x = 0; x < this.size.width; x++) {
       for (let y = 0; y < this.size.height; y++) {
         spriteSheet.drawTile(this.name, context, x, y);
@@ -22,7 +21,7 @@ export default class Object {
     return buffer;
   }
 
-  draw(ctx) {
-    ctx.drawImage(this.buffer, this.pos.x * 16, this.pos.y * 16);
+  draw(ctx, base) {
+    ctx.drawImage(this.buffer, (this.pos.x - base) * 16, this.pos.y * 16);
   }
 }

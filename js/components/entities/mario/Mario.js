@@ -35,7 +35,7 @@ export default class Mario extends Entity {
     this.pos.x += this.vel.x;
   }
 
-  draw(ctx) {
+  draw(ctx, base) {
     let currentState = this.direction;
 
     if (this.isJump) {
@@ -55,7 +55,7 @@ export default class Mario extends Entity {
       this.name,
       ctx,
       currentState,
-      this.pos.x,
+      this.pos.x - base,
       this.pos.y
     );
   }

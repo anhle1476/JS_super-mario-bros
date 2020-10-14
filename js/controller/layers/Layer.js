@@ -7,7 +7,7 @@ export default class Layer {
     this.objects.push(object);
   }
 
-  drawObjects(ctx) {
-    this.objects.forEach((obj) => obj.draw(ctx));
+  drawObjects(ctx, base) {
+    this.objects.forEach((obj) => obj.draw(ctx, base));
   }
 }

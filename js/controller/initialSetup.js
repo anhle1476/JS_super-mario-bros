@@ -1,6 +1,8 @@
 import Compositor from "./compositor/Compositor.js";
 import UpdateCenter from "./updateCenter/UpdateCenter.js";
 import CollisionDetector from "./collision/CollisionDetector.js";
+import ViewPort from "./viewPort/ViewPort.js";
+
 import Mario from "../components/entities/mario/Mario.js";
 
 import { bgFactory } from "../components/objects/factory/bgFactory.js";
@@ -18,8 +20,11 @@ export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
 
   const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
 
+  // create viewPort
+  const viewPort = new ViewPort(levelData.width, mario);
+
   // create compositor
-  const compositor = new Compositor(ctx);
+  const compositor = new Compositor(ctx, viewPort);
   compositor.addLayer(createLayer(backgroundObj));
   compositor.addLayer(createLayer(breakableObj));
   compositor.addLayer(createLayer(unbreakableObj));
@@ -28,6 +33,7 @@ export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
   // create updateCenter
   const updateCenter = new UpdateCenter();
   updateCenter.addObject(mario);
+  updateCenter.addObject(viewPort);
 
   // create collision Detect
   const collisionDetector = new CollisionDetector(mario);
