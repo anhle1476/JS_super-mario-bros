@@ -6,9 +6,13 @@ export default class Mario extends Entity {
   constructor(spriteSheet, posX, posY, velX, velY) {
     super(spriteSheet, "mario", posX, posY, velX, velY, 1, 1);
 
+    this.isMario = true;
+    this.isAlive = true;
+    this.isJump = false;
+
     this.direction = DIRECTION.RIGHT;
     this.action = ACTION.IDLE;
-    this.isJump = false;
+    this.state = this._getCurrentState();
   }
 
   update() {
@@ -33,9 +37,11 @@ export default class Mario extends Entity {
     }
 
     this.pos.x += this.vel.x;
+    this.state = this._getCurrentState();
   }
 
-  draw(ctx, base) {
+  _getCurrentState() {
+    if (!this.isAlive) return ACTION.DIE;
     let currentState = this.direction;
 
     if (this.isJump) {
@@ -51,12 +57,6 @@ export default class Mario extends Entity {
       }
     }
 
-    this.spriteSheet.drawAnimation(
-      this.name,
-      ctx,
-      currentState,
-      this.pos.x - base,
-      this.pos.y
-    );
+    return currentState;
   }
 }

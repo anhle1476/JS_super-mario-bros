@@ -8,4 +8,14 @@ export default class Entity {
     this.vel = new Vector(velX, velY);
     this.size = new Size(width, height);
   }
+
+  draw(ctx, base) {
+    this.spriteSheet.drawAnimation(
+      this.name,
+      ctx,
+      this.state,
+      this.pos.x - base,
+      this.pos.y
+    );
+  }
 }

@@ -25,7 +25,7 @@ export default class Timer {
       this._accumulatedTime -= GAME_CONST.DELTA_TIME;
 
       this.game.updateFrames();
-      this.updateCenter.updateObjects();
+      this.updateCenter.update();
       this.compositor.drawLayers();
       this.collisionDetector.run();
     }

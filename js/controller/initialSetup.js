@@ -8,6 +8,7 @@ import { bgFactory } from "../components/objects/factory/bgFactory.js";
 import { unbreakableFactory } from "../components/objects/factory/unbreakableFactory.js";
 import { breakableFactory } from "../components/objects/factory/breakableFactory.js";
 import { specialFactory } from "../components/objects/factory/specialFactory.js";
+import { minionFactory } from "../components/entities/minions/factory/minionFactory.js";
 
 import { setUpKeyboard } from "../input/keyboard/setupKeyboard.js";
 import { createLayer } from "./layers/createLayer.js";
@@ -18,16 +19,18 @@ function setupCompositor(ctx, viewPort, layerObjects) {
   return compositor;
 }
 
-function setupUpdateCenter(updateObjects) {
+function setupUpdateCenter(updateObjects, entities) {
   const updateCenter = new UpdateCenter();
   updateObjects.forEach((objects) => updateCenter.addObject(objects));
+  entities.forEach((entities) => updateCenter.addEntity(entities));
   return updateCenter;
 }
 
-function setupCollisionDetector(mario, unbreakable, breakable) {
+function setupCollisionDetector(mario, unbreakable, breakable, minions) {
   const collisionDetector = new CollisionDetector(mario);
-  unbreakable.forEach((obj) => collisionDetector.addUnbreakableSet(obj));
-  breakable.forEach((obj) => collisionDetector.addBreakableSet(obj));
+  unbreakable.forEach((set) => collisionDetector.addUnbreakableSet(set));
+  breakable.forEach((set) => collisionDetector.addBreakableSet(set));
+  minions.forEach((set) => collisionDetector.addMinionsSet(set));
   return collisionDetector;
 }
 
@@ -37,6 +40,7 @@ export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
   const breakableObj = breakableFactory(levelData.breakable, bgSprite);
   const unbreakableObj = unbreakableFactory(levelData.unbreakable, bgSprite);
   const specialObj = specialFactory(levelData.special, bgSprite);
+  const minions = minionFactory(levelData.minions, marioSprite);
 
   const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
 
@@ -49,17 +53,19 @@ export function initialSetup(ctx, bgSprite, marioSprite, levelData) {
     breakableObj,
     unbreakableObj,
     specialObj,
+    minions,
     [mario],
   ]);
 
   // create updateCenter
-  const updateCenter = setupUpdateCenter([mario, viewPort]);
+  const updateCenter = setupUpdateCenter([viewPort], [mario, ...minions]);
 
   // create collision Detect
   const collisionDetector = setupCollisionDetector(
     mario,
     [unbreakableObj, specialObj],
-    [breakableObj]
+    [breakableObj],
+    [minions]
   );
 
   setUpKeyboard(mario);

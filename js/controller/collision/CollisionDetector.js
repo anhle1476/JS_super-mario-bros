@@ -1,14 +1,11 @@
 import { COLLISION } from "../../math/collision.js";
 
 export default class CollisionDetector {
-  constructor(entity) {
-    this.setEntity(entity);
+  constructor(mario) {
+    this.mario = mario;
     this.unbreakable = [];
     this.breakable = [];
-  }
-
-  setEntity(entity) {
-    this.entity = entity;
+    this.minions = [];
   }
 
   addUnbreakableSet(objectsSet) {
@@ -19,43 +16,22 @@ export default class CollisionDetector {
     this.breakable = [...this.breakable, ...objectsSet];
   }
 
-  getEntPosition(mario) {
+  addMinionsSet(objectsSet) {
+    this.minions = [...this.minions, ...objectsSet];
+  }
+
+  getEntPosition(ent) {
     return [
-      mario.pos.x + 0.1,
-      mario.pos.y + 1 - mario.size.height,
-      mario.pos.x + mario.size.width - 0.1,
-      mario.pos.y + mario.size.height,
+      ent.pos.x + 0.1,
+      ent.pos.y + 1 - ent.size.height,
+      ent.pos.x + ent.size.width - 0.1,
+      ent.pos.y + ent.size.height,
     ];
   }
 
   run() {
-    const [entX0, entY0, entX1, entY1] = this.getEntPosition(this.entity);
-
-    let isJumping = true;
-
-    // for Unbreakable Object
-    this.unbreakable.forEach((object) => {
-      if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object))
-        isJumping = false;
-    });
-
-    // for Breakable Object
-    let removeIndex = -1;
-
-    this.breakable.forEach((object, index) => {
-      if (object.isExist) {
-        if (!this.detectCollideReturnIsJump(entX0, entY0, entX1, entY1, object))
-          isJumping = false;
-      } else {
-        removeIndex = index;
-      }
-    });
-
-    if (removeIndex >= 0) {
-      this.breakable.splice(removeIndex, 1);
-    }
-
-    this.entity.isJump = isJumping;
+    this.marioCollisionDetect();
+    this.minionsCollisionDetect();
   }
 
   getObsPosition(obs) {
@@ -67,34 +43,126 @@ export default class CollisionDetector {
     ];
   }
 
-  detectCollideReturnIsJump(entX0, entY0, entX1, entY1, obstacle) {
-    const [obsX0, obsY0, obsX1, obsY1] = this.getObsPosition(obstacle);
-
+  detectCollideReturnIsJump(
+    [entX0, entY0, entX1, entY1],
+    [obsX0, obsY0, obsX1, obsY1],
+    entity,
+    obstacle
+  ) {
     if (entY1 < obsY0 || entY0 > obsY1 || entX1 < obsX0 || entX0 > obsX1) {
       return true;
     }
 
     if (entY1 - obsY0 > 0.1) {
       if (entX1 - obsX0 < 0.15) {
-        // console.log("left");
-        obstacle.collide(COLLISION.LEFT, this.entity);
+        // console.log(entity.name, "left");
+        obstacle.collide(COLLISION.LEFT, entity);
         return true;
       }
 
       if (obsX1 - entX0 < 0.15) {
-        // console.log("right");
-        obstacle.collide(COLLISION.RIGHT, this.entity);
+        // console.log(entity.name, "right");
+        obstacle.collide(COLLISION.RIGHT, entity);
         return true;
       }
     }
 
     if (obsY1 - entY0 < 0.5) {
-      // console.log("bottom");
-      obstacle.collide(COLLISION.BOTTOM, this.entity);
+      // console.log(entity.name, "bottom");
+      obstacle.collide(COLLISION.BOTTOM, entity);
       return true;
     }
-
-    obstacle.collide(COLLISION.TOP, this.entity);
+    // console.log(entity.name, "top");
+    obstacle.collide(COLLISION.TOP, entity);
     return false;
+  }
+
+  marioCollisionDetect() {
+    if (!this.mario.isAlive) return;
+    const entPosition = this.getEntPosition(this.mario);
+
+    let isJumping = true;
+
+    // for Unbreakable Object
+    this.unbreakable.forEach((object) => {
+      if (
+        !this.detectCollideReturnIsJump(
+          entPosition,
+          this.getObsPosition(object),
+          this.mario,
+          object
+        )
+      )
+        isJumping = false;
+    });
+
+    // for Breakable Object
+    let removeIndex = -1;
+
+    this.breakable.forEach((object, index) => {
+      if (object.isExist) {
+        if (
+          !this.detectCollideReturnIsJump(
+            entPosition,
+            this.getObsPosition(object),
+            this.mario,
+            object
+          )
+        )
+          isJumping = false;
+      } else {
+        removeIndex = index;
+      }
+    });
+
+    if (removeIndex >= 0) {
+      this.breakable.splice(removeIndex, 1);
+    }
+
+    // for minions
+    removeIndex = -1;
+
+    this.minions.forEach((minion, index) => {
+      if (minion.isAlive) {
+        this.detectCollideReturnIsJump(
+          entPosition,
+          this.getEntPosition(minion),
+          this.mario,
+          minion
+        );
+      } else {
+        removeIndex = index;
+      }
+    });
+
+    if (removeIndex >= 0) {
+      this.minions.splice(removeIndex, 1);
+    }
+
+    this.mario.isJump = isJumping;
+  }
+
+  minionsCollisionDetect() {
+    for (const minion of this.minions) {
+      const minionPosition = this.getEntPosition(minion);
+
+      this.unbreakable.forEach((object) =>
+        this.detectCollideReturnIsJump(
+          minionPosition,
+          this.getObsPosition(object),
+          minion,
+          object
+        )
+      );
+
+      this.breakable.forEach((object) =>
+        this.detectCollideReturnIsJump(
+          minionPosition,
+          this.getObsPosition(object),
+          minion,
+          object
+        )
+      );
+    }
   }
 }

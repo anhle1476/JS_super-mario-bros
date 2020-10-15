@@ -71,11 +71,33 @@ const marioAnimation = {
   100: [[12, 44]],
 };
 
+const mushroomMinionAnimation = {
+  0: [[277, 187]],
+  1: [
+    [296, 187],
+    [315, 187],
+  ],
+};
+
+const flowerMinionAnimation = {
+  1: [
+    [125, 180],
+    [144, 180],
+  ],
+};
+
 export function loadMarioSprite(game) {
   return loadImage("./img/characters.gif").then((image) => {
     const marioSprite = new SpriteSheet(game, image);
 
     marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
+    marioSprite.defineAnimation(
+      "mushroom-minion",
+      mushroomMinionAnimation,
+      1,
+      1
+    );
+    marioSprite.defineAnimation("flower-minion", flowerMinionAnimation, 1, 2);
 
     return marioSprite;
   });
