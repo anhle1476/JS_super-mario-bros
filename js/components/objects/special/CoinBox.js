@@ -18,7 +18,7 @@ export default class CoinBox extends Object {
     this.buffer = this.createObjectBuffer(this.spriteSheet, this.name, 1, 1);
   }
 
-  collide(collisionDirection, entity, game) {
+  collide(collisionDirection, entity, game, audioController) {
     switch (collisionDirection) {
       case COLLISION.TOP:
         normalCollide.top(this, entity);
@@ -28,6 +28,7 @@ export default class CoinBox extends Object {
         if (entity.name === "mario" && this.coins > 0) {
           this.nextBox();
           game.scoreGetCoin();
+          audioController.playCoin();
         }
         break;
       case COLLISION.RIGHT:

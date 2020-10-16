@@ -12,13 +12,6 @@ export const loadAudio = (url) => {
     .then((buffer) => {
       const context = new AudioContext();
       return context.decodeAudioData(buffer);
-    })
-    .then((audioBuffer) => {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(audioCtx.destination);
-      return source;
     });
 };
 

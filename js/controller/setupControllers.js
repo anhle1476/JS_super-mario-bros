@@ -17,8 +17,14 @@ export function setupUpdateCenter(updateObjects, entities) {
   return updateCenter;
 }
 
-export function setupCollisionDetector(mario, unbreakable, breakable, minions) {
-  const collisionDetector = new CollisionDetector(mario);
+export function setupCollisionDetector(
+  mario,
+  audioController,
+  unbreakable,
+  breakable,
+  minions
+) {
+  const collisionDetector = new CollisionDetector(mario, audioController);
   unbreakable.forEach((set) => collisionDetector.addUnbreakableSet(set));
   breakable.forEach((set) => collisionDetector.addBreakableSet(set));
   minions.forEach((set) => collisionDetector.addMinionsSet(set));

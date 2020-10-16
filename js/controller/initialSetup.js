@@ -32,8 +32,9 @@ export function initialSetup(
   const minions = minionFactory(levelData.minions, marioSprite);
   const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
 
-  // create viewPort
+  // create view port & audio controller
   const viewPort = new ViewPort(levelData.width, mario);
+  const audioController = new AudioController(audio);
 
   // create compositor
   const compositor = setupCompositor(ctx, viewPort, [
@@ -51,15 +52,19 @@ export function initialSetup(
   // create collision Detect
   const collisionDetector = setupCollisionDetector(
     mario,
+    audioController,
     [unbreakableObj, specialObj],
     [breakableObj],
     [minions]
   );
 
-  setUpKeyboard(mario);
+  setUpKeyboard(mario, audioController);
 
-  let audioController = new AudioController(audio);
-  audioController.playTheme();
-
-  return new Timer(game, compositor, updateCenter, collisionDetector, audio);
+  return new Timer(
+    game,
+    compositor,
+    updateCenter,
+    collisionDetector,
+    audioController
+  );
 }

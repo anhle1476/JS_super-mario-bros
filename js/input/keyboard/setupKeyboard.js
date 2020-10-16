@@ -1,8 +1,8 @@
 import Keyboard from "./Keyboard.js";
 import { ACTION, DIRECTION } from "../../math/entityState.js";
 
-export function setUpKeyboard(mario) {
-  let keyboard = new Keyboard();
+export function setUpKeyboard(mario, audioController) {
+  let keyboard = new Keyboard(audioController);
 
   function resetMove() {
     mario.action = ACTION.IDLE;
@@ -22,6 +22,7 @@ export function setUpKeyboard(mario) {
   function jump() {
     if (!mario.isJump) {
       mario.vel.y -= 0.42;
+      keyboard.audioController.playJump();
     }
   }
 

@@ -3,21 +3,46 @@ export default class AudioController {
     this.audio = audio;
   }
 
+  playSong(name) {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createBufferSource();
+    source.buffer = this.audio[name];
+    source.connect(audioCtx.destination);
+    source.start(0);
+    return source;
+  }
+
   playTheme() {
-    this.audio.theme.loop = true;
-    this.audio.theme.start(0);
-    console.log(this.audio.theme);
+    this.themeSong = this.playSong("theme");
+    this.themeSong.loop = true;
   }
 
   stopTheme() {
-    this.audio.theme.stop();
+    this.themeSong.stop();
   }
 
   pauseTheme() {
-    this.audio.theme.pause();
+    this.themeSong.pause();
   }
 
   resumeTheme() {
-    this.audio.theme.resume();
+    this.themeSong.resume();
+  }
+
+  playJump() {
+    this.playSong("jump");
+  }
+
+  playCoin() {
+    this.playSong("coin");
+  }
+
+  playStomp() {
+    this.playSong("stomp");
+  }
+
+  playDie() {
+    this.pauseTheme();
+    this.playSong("die");
   }
 }

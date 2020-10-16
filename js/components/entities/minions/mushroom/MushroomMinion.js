@@ -35,12 +35,13 @@ export default class MushroomMinion extends Minion {
     return this.isAlive ? 1 : 0;
   }
 
-  collide(collisionDirection, entity, game) {
+  collide(collisionDirection, entity, game, audioController) {
     switch (collisionDirection) {
       case COLLISION.TOP:
         this.isAlive = false;
         this.vel.y -= 0.3;
         game.scoreKillMinion();
+        audioController.playStomp();
         minionCollide.top(this, entity);
         break;
       case COLLISION.BOTTOM:

@@ -38,8 +38,8 @@ export default class CollisionDetector {
     ];
   }
 
-  run(game) {
-    this.marioCollisionDetect(game);
+  run(game, audioController) {
+    this.marioCollisionDetect(game, audioController);
     this.minionsCollisionDetect();
   }
 
@@ -57,7 +57,8 @@ export default class CollisionDetector {
     [obsX0, obsY0, obsX1, obsY1],
     entity,
     obstacle,
-    game
+    game,
+    audioController
   ) {
     if (entY1 < obsY0 || entY0 > obsY1 || entX1 < obsX0 || entX0 > obsX1) {
       return true;
@@ -65,29 +66,25 @@ export default class CollisionDetector {
 
     if (entY1 - obsY0 > 0.1) {
       if (entX1 - obsX0 < 0.15) {
-        // console.log(entity.name, "left");
-        obstacle.collide(COLLISION.LEFT, entity, game);
+        obstacle.collide(COLLISION.LEFT, entity, game, audioController);
         return true;
       }
 
       if (obsX1 - entX0 < 0.15) {
-        // console.log(entity.name, "right");
-        obstacle.collide(COLLISION.RIGHT, entity, game);
+        obstacle.collide(COLLISION.RIGHT, entity, game, audioController);
         return true;
       }
     }
 
     if (obsY1 - entY0 < 0.5) {
-      // console.log(entity.name, "bottom");
-      obstacle.collide(COLLISION.BOTTOM, entity, game);
+      obstacle.collide(COLLISION.BOTTOM, entity, game, audioController);
       return true;
     }
-    // console.log(entity.name, "top");
-    obstacle.collide(COLLISION.TOP, entity, game);
+    obstacle.collide(COLLISION.TOP, entity, game, audioController);
     return false;
   }
 
-  marioCollisionDetect(game) {
+  marioCollisionDetect(game, audioController) {
     if (!this.mario.isAlive) return;
     const marioPosition = this.getMarioPosition(this.mario);
 
@@ -101,7 +98,8 @@ export default class CollisionDetector {
           this.getObsPosition(object),
           this.mario,
           object,
-          game
+          game,
+          audioController
         )
       )
         isJumping = false;
@@ -118,7 +116,8 @@ export default class CollisionDetector {
             this.getObsPosition(object),
             this.mario,
             object,
-            game
+            game,
+            audioController
           )
         )
           isJumping = false;
@@ -141,7 +140,8 @@ export default class CollisionDetector {
           this.getEntPosition(minion),
           this.mario,
           minion,
-          game
+          game,
+          audioController
         );
       } else {
         removeIndex = index;

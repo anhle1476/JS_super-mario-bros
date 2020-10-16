@@ -1,7 +1,8 @@
 export default class Keyboard {
-  constructor() {
+  constructor(audioController) {
     this.keysMap = new Map();
     this.currentKey = new Map();
+    this.audioController = audioController;
 
     this.keyDownHandler = this.keyDownHandler.bind(this);
     this.keyUpHandler = this.keyUpHandler.bind(this);
