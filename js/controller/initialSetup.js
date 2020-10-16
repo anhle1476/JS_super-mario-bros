@@ -24,17 +24,18 @@ export function initialSetup(
   levelData,
   audio
 ) {
+  //create audio controller
+  const audioController = new AudioController(audio);
   // create objects
   const backgroundObj = bgFactory(levelData.background, bgSprite);
   const breakableObj = breakableFactory(levelData.breakable, bgSprite);
   const unbreakableObj = unbreakableFactory(levelData.unbreakable, bgSprite);
   const specialObj = specialFactory(levelData.special, bgSprite);
   const minions = minionFactory(levelData.minions, marioSprite);
-  const mario = new Mario(marioSprite, 2, 12, 0, -0.5);
+  const mario = new Mario(marioSprite, 2, 12, 0, -0.5, audioController);
 
-  // create view port & audio controller
+  // create view port
   const viewPort = new ViewPort(levelData.width, mario);
-  const audioController = new AudioController(audio);
 
   // create compositor
   const compositor = setupCompositor(ctx, viewPort, [

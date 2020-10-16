@@ -36,18 +36,18 @@ export const minionCollide = {
   bottom: (minion, entity) => {
     if (!entity.isMario) return;
     normalCollide.bottom(minion, entity);
-    entity.isAlive = false;
+    entity.die();
   },
 
   right: (minion, entity) => {
     if (!entity.isMario) return;
     normalCollide.right(minion, entity);
-    entity.isAlive = false;
+    entity.die();
   },
 
   left: (minion, entity) => {
     if (!entity.isMario) return;
     normalCollide.left(minion, entity);
-    entity.isAlive = false;
+    entity.die();
   },
 };

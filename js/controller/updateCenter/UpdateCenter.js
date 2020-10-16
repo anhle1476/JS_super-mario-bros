@@ -26,6 +26,7 @@ export default class UpdateCenter {
     if (removeIndex >= 0) {
       const removed = this.entities.splice(removeIndex, 1);
       if (removed[0].name === "mario") {
+        removed[0].die();
         game.gameOver();
       }
     }

@@ -21,14 +21,6 @@ export default class AudioController {
     this.themeSong.stop();
   }
 
-  pauseTheme() {
-    this.themeSong.pause();
-  }
-
-  resumeTheme() {
-    this.themeSong.resume();
-  }
-
   playJump() {
     this.playSong("jump");
   }
@@ -42,7 +34,7 @@ export default class AudioController {
   }
 
   playDie() {
-    this.pauseTheme();
+    this.stopTheme();
     this.playSong("die");
   }
 }
