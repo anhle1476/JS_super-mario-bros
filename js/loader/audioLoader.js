@@ -7,11 +7,15 @@ export function loadAudioResource() {
     loadAudio("./audio/jump.ogg"),
     loadAudio("./audio/stomp.ogg"),
     loadAudio("./audio/die.ogg"),
-  ]).then(([theme, coin, jump, stomp, die]) => ({
+    loadAudio("./audio/break.ogg"),
+    loadAudio("./audio/gameOver.ogg"),
+  ]).then(([theme, coin, jump, stomp, die, breakItem, gameOver]) => ({
     theme,
     coin,
     jump,
     stomp,
     die,
+    breakItem,
+    gameOver,
   }));
 }

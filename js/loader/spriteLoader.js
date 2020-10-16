@@ -1,10 +1,12 @@
-import SpriteSheet from "../spriteSheet.js";
+import SpriteSheet from "../controller/spriteSheet/spriteSheet.js";
+import AnimationSprite from "../controller/spriteSheet/AnimationSprite.js";
+import FontSprite from "../controller/spriteSheet/FontSprite.js";
 
 import { loadImage } from "./resourceLoader.js";
 
-export function loadBackgroundSprite(game) {
+export function loadBackgroundSprite() {
   return loadImage("./img/tiles.png").then((image) => {
-    const bgSprite = new SpriteSheet(game, image);
+    const bgSprite = new SpriteSheet(image);
     bgSprite.defineTile("sky", 3, 23);
     bgSprite.defineTile("ground", 0, 0);
 
@@ -88,7 +90,7 @@ const flowerMinionAnimation = {
 
 export function loadMarioSprite(game) {
   return loadImage("./img/characters.gif").then((image) => {
-    const marioSprite = new SpriteSheet(game, image);
+    const marioSprite = new AnimationSprite(image, game);
 
     marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
     marioSprite.defineAnimation(
@@ -102,3 +104,5 @@ export function loadMarioSprite(game) {
     return marioSprite;
   });
 }
+
+export function loadFontSprite() {}

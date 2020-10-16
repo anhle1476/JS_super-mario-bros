@@ -33,8 +33,17 @@ export default class AudioController {
     this.playSong("stomp");
   }
 
+  playBreak() {
+    this.playSong("breakItem");
+  }
+
   playDie() {
     this.stopTheme();
     this.playSong("die");
+  }
+
+  playGameOver() {
+    this.stopTheme();
+    this.playSong("gameOver");
   }
 }

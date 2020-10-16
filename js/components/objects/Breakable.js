@@ -9,13 +9,14 @@ export default class Breakable extends Object {
     this.isExist = true;
   }
 
-  collide(collisionDirection, entity) {
+  collide(collisionDirection, entity, game, audioController) {
     switch (collisionDirection) {
       case COLLISION.TOP:
         normalCollide.top(this, entity);
         break;
       case COLLISION.BOTTOM:
         normalCollide.bottom(this, entity);
+        audioController.playBreak();
         this.isExist = false;
         break;
       case COLLISION.RIGHT:

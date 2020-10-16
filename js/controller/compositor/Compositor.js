@@ -9,9 +9,11 @@ export default class Compositor {
     this.layers.push(layer);
   }
 
-  drawLayers() {
+  drawLayers(game) {
     this.layers.forEach((layer) =>
       layer.drawObjects(this.ctx, this.viewPort.base)
     );
+
+    game.drawGameState();
   }
 }

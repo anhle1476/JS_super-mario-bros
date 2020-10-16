@@ -32,7 +32,7 @@ export function initialSetup(
   const unbreakableObj = unbreakableFactory(levelData.unbreakable, bgSprite);
   const specialObj = specialFactory(levelData.special, bgSprite);
   const minions = minionFactory(levelData.minions, marioSprite);
-  const mario = new Mario(marioSprite, 2, 12, 0, -0.5, audioController);
+  const mario = new Mario(marioSprite, 2, 12, 0, 0, audioController);
 
   // create view port
   const viewPort = new ViewPort(levelData.width, mario);

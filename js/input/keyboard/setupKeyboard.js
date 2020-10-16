@@ -26,14 +26,9 @@ export function setUpKeyboard(mario, audioController) {
     }
   }
 
-  function logMario() {
-    console.log(mario);
-  }
-
   keyboard.addKey("MOVE", 37, moveLeft, resetMove);
   keyboard.addKey("MOVE", 39, moveRight, resetMove);
   keyboard.addKey("JUMP", 32, jump, resetNothing);
-  keyboard.addKey("LOG", 13, logMario, resetNothing);
 
   document.addEventListener("keydown", keyboard.keyDownHandler);
   document.addEventListener("keyup", keyboard.keyUpHandler);

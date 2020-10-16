@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Super Mario</title>
+    <title>Mini Mario</title>
     <style>
       body {
         background-color: #000000;
@@ -13,7 +13,7 @@
       #screen {
         display: block;
         image-rendering: pixelated;
-        height: 95vh;
+        height: 100vh;
         margin: auto;
       }
 
@@ -21,10 +21,23 @@
         padding: 20px;
         border: none;
       }
+
+      @font-face {
+        font-family: "normal";
+        src: url(./fonts/prstartk.ttf) format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "title";
+        src: url(./fonts/SuperPlumberBrothers-y00V.ttf) format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
     </style>
   </head>
   <body>
-    <button id="stop">STOP</button>
     <canvas id="screen" width="390" height="240"></canvas>
   </body>
   <script type="module" src="./js/main.js"></script>

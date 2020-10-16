@@ -1,22 +1,25 @@
 import Game from "./Game.js";
 
 import { initialSetup } from "./controller/initialSetup.js";
-import { loadLevel, loadAudio } from "./loader/resourceLoader.js";
+import { loadLevel } from "./loader/resourceLoader.js";
 import {
   loadBackgroundSprite,
   loadMarioSprite,
 } from "./loader/spriteLoader.js";
 import { loadAudioResource } from "./loader/audioLoader.js";
+import { preloadFont } from "./loader/preloadFont.js";
 
 const ctx = document.getElementById("screen").getContext("2d");
 
 ctx.mozImageSmoothingEnabled = false;
 ctx.webkitImageSmoothingEnabled = false;
 ctx.imageSmoothingEnabled = false;
-
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-const game = new Game();
+ctx.fillStyle = "white";
+preloadFont();
+
+const game = new Game(ctx);
 
 Promise.all([
   loadBackgroundSprite(game),
@@ -33,5 +36,5 @@ Promise.all([
     audio
   );
 
-  timer.start();
+  timer.getReady();
 });

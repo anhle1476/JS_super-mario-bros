@@ -12,7 +12,7 @@ export default class UpdateCenter {
     this.entities.push(entity);
   }
 
-  update(game) {
+  update(game, audioController) {
     this.objects.forEach((obj) => obj.update());
 
     let removeIndex = -1;
@@ -26,8 +26,8 @@ export default class UpdateCenter {
     if (removeIndex >= 0) {
       const removed = this.entities.splice(removeIndex, 1);
       if (removed[0].name === "mario") {
-        removed[0].die();
-        game.gameOver();
+        if (removed[0].isAlive) audioController.playDie();
+        game.gameOver(audioController);
       }
     }
   }
