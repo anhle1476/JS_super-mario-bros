@@ -1,4 +1,4 @@
-import { GAME_CONST } from "./math/gameConst.js";
+import { GAME_CONST, GAME_STATE } from "./math/gameConst.js";
 
 export default class Timer {
   constructor(
@@ -32,31 +32,23 @@ export default class Timer {
       this.collisionDetector.run(this.game, this.audioController);
     }
 
-    if (!this.game.isPlaying) return;
+    if (this.game.state !== GAME_STATE.PLAYING) return;
 
     this._lastTime = time;
-    this.enqueue();
-  }
-
-  enqueue() {
     requestAnimationFrame(this.updateProxy);
   }
 
   start() {
-    this.enqueue();
+    this.game.state = GAME_STATE.PLAYING;
+
+    this._accumulatedTime = 0;
+    this._lastTime = performance.now();
+
+    this.updateProxy(performance.now());
     this.audioController.playTheme();
   }
 
   getReady() {
     this.game.drawGameReady();
-
-    const pressKeyToStart = ({ keyCode }) => {
-      if (keyCode === 13) {
-        this.start();
-        document.removeEventListener("keydown", pressKeyToStart);
-      }
-    };
-
-    document.addEventListener("keydown", pressKeyToStart);
   }
 }

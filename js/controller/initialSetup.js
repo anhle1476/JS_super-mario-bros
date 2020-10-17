@@ -1,7 +1,5 @@
 import ViewPort from "./viewPort/ViewPort.js";
-import Mario from "../components/entities/mario/Mario.js";
 import Timer from "../Timer.js";
-import AudioController from "./audioController/AudioController.js";
 
 import { bgFactory } from "../components/objects/factory/bgFactory.js";
 import { unbreakableFactory } from "../components/objects/factory/unbreakableFactory.js";
@@ -14,25 +12,22 @@ import {
   setupCompositor,
   setupUpdateCenter,
 } from "./setupControllers.js";
-import { setUpKeyboard } from "../input/keyboard/setupKeyboard.js";
 
 export function initialSetup(
   game,
   ctx,
+  audioController,
+  mario,
   bgSprite,
   marioSprite,
-  levelData,
-  audio
+  levelData
 ) {
-  //create audio controller
-  const audioController = new AudioController(audio);
   // create objects
   const backgroundObj = bgFactory(levelData.background, bgSprite);
   const breakableObj = breakableFactory(levelData.breakable, bgSprite);
   const unbreakableObj = unbreakableFactory(levelData.unbreakable, bgSprite);
   const specialObj = specialFactory(levelData.special, bgSprite);
   const minions = minionFactory(levelData.minions, marioSprite);
-  const mario = new Mario(marioSprite, 2, 12, 0, 0, audioController);
 
   // create view port
   const viewPort = new ViewPort(levelData.width, mario);
@@ -58,8 +53,6 @@ export function initialSetup(
     [breakableObj],
     [minions]
   );
-
-  setUpKeyboard(mario, audioController);
 
   return new Timer(
     game,

@@ -3,10 +3,13 @@ import { GAME_CONST } from "../../../math/gameConst.js";
 import { DIRECTION, ACTION } from "../../../math/entityState.js";
 
 export default class Mario extends Entity {
-  constructor(spriteSheet, posX, posY, velX, velY, audioController) {
-    super(spriteSheet, "mario", posX, posY, velX, velY, 1, 1);
+  constructor(spriteSheet, audioController) {
+    super(spriteSheet, "mario", 2, 12, 0, 0, 1, 1);
     this.audioController = audioController;
+    this.init();
+  }
 
+  init() {
     this.isMario = true;
     this.isAlive = true;
     this.isJump = false;
@@ -14,6 +17,15 @@ export default class Mario extends Entity {
     this.direction = DIRECTION.RIGHT;
     this.action = ACTION.IDLE;
     this.state = this._getCurrentState();
+  }
+
+  reset() {
+    this.pos.x = 2;
+    this.pos.y = 12;
+    this.vel.x = 0;
+    this.vel.y = 0;
+
+    this.init();
   }
 
   update() {

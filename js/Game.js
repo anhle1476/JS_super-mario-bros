@@ -1,15 +1,24 @@
+import { GAME_STATE } from "./math/gameConst.js";
+
 export default class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.resetGame();
-    this.timeLeft = 120;
+
+    this.init();
     this.highestScore = 50000;
+
+    this.state = GAME_STATE.READY;
   }
 
-  resetGame() {
+  init() {
     this.frames = 0;
     this.score = 0;
-    this.isPlaying = true;
+    this.timeLeft = 120;
+  }
+
+  reset() {
+    this.init();
+    this.state = GAME_STATE.PLAYING;
   }
 
   updateFrames(audioController) {
@@ -27,12 +36,8 @@ export default class Game {
     this.score += 300;
   }
 
-  stop() {
-    this.isPlaying = false;
-  }
-
   gameOver(audioController) {
-    this.stop();
+    this.state = GAME_STATE.GAME_OVER;
     setTimeout(() => {
       this.drawGameOver();
       audioController.playGameOver();
@@ -63,16 +68,18 @@ export default class Game {
     this.ctx.fillStyle = "white";
 
     this.ctx.font = "16px normal";
-    this.ctx.fillText("GAME OVER", 123, 112);
+    this.ctx.fillText("GAME OVER", 123, 90);
 
     this.ctx.font = "8px normal";
     const scoreMessage = `Score: ${this.score}`;
     const highestScoreMessage = `Highest: ${this.highestScore}`;
-    this.ctx.fillText(scoreMessage, (390 - scoreMessage.length * 8) / 2, 140);
+    this.ctx.fillText(scoreMessage, (390 - scoreMessage.length * 8) / 2, 130);
     this.ctx.fillText(
       highestScoreMessage,
       (390 - highestScoreMessage.length * 8) / 2,
-      160
+      150
     );
+
+    this.ctx.fillText("PRESS ENTER TO RESTART", 106, 220);
   }
 }
