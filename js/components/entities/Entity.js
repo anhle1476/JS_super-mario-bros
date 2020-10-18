@@ -11,7 +11,7 @@ export default class Entity {
   }
 
   _updateIsActive(base) {
-    this.isActive = this.pos.x > base - 5 && this.pos.x < base + 30;
+    this.isActive = this.pos.x > base - 5 && this.pos.x < base + 25;
   }
 
   draw(ctx, base) {
