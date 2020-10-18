@@ -1,4 +1,5 @@
 import MushroomMinion from "../mushroom/MushroomMinion.js";
+import Doctor from "../doctor/Doctor.js";
 
 export function minionFactory(data, sprite) {
   const minionsList = [];
@@ -8,6 +9,11 @@ export function minionFactory(data, sprite) {
       case "mushroom":
         minions.set.forEach(([x, y]) => {
           minionsList.push(new MushroomMinion(sprite, x, y));
+        });
+        break;
+      case "doctor":
+        minions.set.forEach(([x, y]) => {
+          minionsList.push(new Doctor(sprite, x, y));
         });
         break;
       default:

@@ -14,6 +14,7 @@ import {
 } from "./loader/spriteLoader.js";
 import { loadAudioResource } from "./loader/audioLoader.js";
 import { preloadFont } from "./loader/preloadFont.js";
+import { drawInitialScreen } from "./utilities/drawInitialScreen.js";
 
 const ctx = document.getElementById("screen").getContext("2d");
 
@@ -45,8 +46,6 @@ Promise.all([
     marioSprite,
     levelData
   );
-
-  game.drawGameReady();
 
   // setup Keyboard
   let keyboard = new Keyboard(audioController);
@@ -81,6 +80,7 @@ Promise.all([
         timer.start();
         break;
       case GAME_STATE.GAME_OVER:
+      case GAME_STATE.WIN:
         game.reset();
         mario.reset();
         timer = initialSetup(
@@ -103,4 +103,6 @@ Promise.all([
 
   document.addEventListener("keydown", keyboard.keyDownHandler);
   document.addEventListener("keyup", keyboard.keyUpHandler);
+
+  drawInitialScreen(ctx);
 });

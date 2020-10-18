@@ -43,7 +43,7 @@ export function initialSetup(
   ]);
 
   // create updateCenter
-  const updateCenter = setupUpdateCenter([viewPort], [mario, ...minions]);
+  const updateCenter = setupUpdateCenter(viewPort, [mario, ...minions]);
 
   // create collision Detect
   const collisionDetector = setupCollisionDetector(

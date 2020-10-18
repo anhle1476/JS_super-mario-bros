@@ -13,6 +13,7 @@ export default class Mario extends Entity {
     this.isMario = true;
     this.isAlive = true;
     this.isJump = false;
+    this.isNormal = true;
 
     this.direction = DIRECTION.RIGHT;
     this.action = ACTION.IDLE;
@@ -50,16 +51,17 @@ export default class Mario extends Entity {
     }
 
     this.pos.x += this.vel.x;
+    if (this.pos.x > 211) this.pos.x = 211;
     this.state = this._getCurrentState();
   }
 
   _getCurrentState() {
     if (!this.isAlive) return ACTION.DIE;
-    let currentState = this.direction;
+    let currentState = this.direction + (this.isNormal ? 0 : 200);
 
     if (this.isJump) {
       currentState += 3;
-    } else if (this.action === ACTION.MOVE) {
+    } else if (this.isNormal && this.action === ACTION.MOVE) {
       currentState += 1;
       // case: change direction but velocity still move to other side -> drift
       if (

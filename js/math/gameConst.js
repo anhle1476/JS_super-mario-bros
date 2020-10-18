@@ -7,4 +7,5 @@ export const GAME_STATE = {
   READY: 0,
   PLAYING: 1,
   GAME_OVER: 2,
+  WIN: 3,
 };

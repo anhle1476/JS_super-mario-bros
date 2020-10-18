@@ -46,4 +46,8 @@ export default class AudioController {
     this.stopTheme();
     this.playSong("gameOver");
   }
+
+  playMeow() {
+    this.playSong("meow");
+  }
 }

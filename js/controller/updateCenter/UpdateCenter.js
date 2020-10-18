@@ -1,11 +1,7 @@
 export default class UpdateCenter {
-  constructor() {
-    this.objects = [];
+  constructor(viewPort) {
+    this.viewPort = viewPort;
     this.entities = [];
-  }
-
-  addObject(object) {
-    this.objects.push(object);
   }
 
   addEntity(entity) {
@@ -13,11 +9,11 @@ export default class UpdateCenter {
   }
 
   update(game, audioController) {
-    this.objects.forEach((obj) => obj.update());
+    this.viewPort.update();
 
     let removeIndex = -1;
     this.entities.forEach((entity, i) => {
-      entity.update();
+      entity.update(this.viewPort.base);
       if (entity.pos.y > 17) {
         removeIndex = i;
       }

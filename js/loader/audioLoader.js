@@ -9,7 +9,8 @@ export function loadAudioResource() {
     loadAudio("./audio/die.ogg"),
     loadAudio("./audio/break.ogg"),
     loadAudio("./audio/gameOver.ogg"),
-  ]).then(([theme, coin, jump, stomp, die, breakItem, gameOver]) => ({
+    loadAudio("./audio/meow.ogg"),
+  ]).then(([theme, coin, jump, stomp, die, breakItem, gameOver, meow]) => ({
     theme,
     coin,
     jump,
@@ -17,5 +18,6 @@ export function loadAudioResource() {
     die,
     breakItem,
     gameOver,
+    meow,
   }));
 }

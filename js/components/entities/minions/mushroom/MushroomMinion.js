@@ -5,16 +5,17 @@ import { minionCollide } from "../../../../controller/collision/collideBehaviour
 import { COLLISION } from "../../../../math/collision.js";
 
 export default class MushroomMinion extends Minion {
-  constructor(spriteSheet, posX, posY, isActive = true) {
+  constructor(spriteSheet, posX, posY) {
     super(spriteSheet, "mushroom-minion", posX, posY, 0.01, 0, 1, 1);
 
     this.direction = DIRECTION.RIGHT;
     this.action = ACTION.MOVE;
-    this.isActive = isActive;
     this.state = this._getCurrentState();
   }
 
-  update() {
+  update(base) {
+    this._updateIsActive(base);
+    if (!this.isActive) return;
     this.vel.y += GAME_CONST.GRAVITY;
     this.pos.y += this.vel.y;
 

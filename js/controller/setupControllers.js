@@ -10,9 +10,8 @@ export function setupCompositor(ctx, viewPort, layerObjects) {
   return compositor;
 }
 
-export function setupUpdateCenter(updateObjects, entities) {
-  const updateCenter = new UpdateCenter();
-  updateObjects.forEach((objects) => updateCenter.addObject(objects));
+export function setupUpdateCenter(viewPort, entities) {
+  const updateCenter = new UpdateCenter(viewPort);
   entities.forEach((entities) => updateCenter.addEntity(entities));
   return updateCenter;
 }

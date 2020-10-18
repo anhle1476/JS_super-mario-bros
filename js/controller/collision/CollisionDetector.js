@@ -134,17 +134,19 @@ export default class CollisionDetector {
     removeIndex = -1;
 
     this.minions.forEach((minion, index) => {
-      if (minion.isAlive) {
-        this.detectCollideReturnIsJump(
-          marioPosition,
-          this.getEntPosition(minion),
-          this.mario,
-          minion,
-          game,
-          audioController
-        );
-      } else {
-        removeIndex = index;
+      if (minion.isActive) {
+        if (minion.isAlive) {
+          this.detectCollideReturnIsJump(
+            marioPosition,
+            this.getEntPosition(minion),
+            this.mario,
+            minion,
+            game,
+            audioController
+          );
+        } else {
+          removeIndex = index;
+        }
       }
     });
 
@@ -157,6 +159,8 @@ export default class CollisionDetector {
 
   minionsCollisionDetect() {
     for (const minion of this.minions) {
+      if (!minion.isActive) continue;
+
       const minionPosition = this.getEntPosition(minion);
 
       this.unbreakable.forEach((object) =>

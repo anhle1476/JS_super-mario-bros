@@ -7,15 +7,22 @@ export default class Entity {
     this.pos = new Vector(posX, posY);
     this.vel = new Vector(velX, velY);
     this.size = new Size(width, height);
+    this.isActive = true;
+  }
+
+  _updateIsActive(base) {
+    this.isActive = this.pos.x > base - 5 && this.pos.x < base + 30;
   }
 
   draw(ctx, base) {
-    this.spriteSheet.drawAnimation(
-      this.name,
-      ctx,
-      this.state,
-      this.pos.x - base,
-      this.pos.y
-    );
+    if (this.isActive) {
+      this.spriteSheet.drawAnimation(
+        this.name,
+        ctx,
+        this.state,
+        this.pos.x - base,
+        this.pos.y
+      );
+    }
   }
 }

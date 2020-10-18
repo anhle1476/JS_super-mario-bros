@@ -1,6 +1,5 @@
 import SpriteSheet from "../controller/spriteSheet/spriteSheet.js";
 import AnimationSprite from "../controller/spriteSheet/AnimationSprite.js";
-import FontSprite from "../controller/spriteSheet/FontSprite.js";
 
 import { loadImage } from "./resourceLoader.js";
 
@@ -71,6 +70,10 @@ const marioAnimation = {
   12: [[160, 44]],
   13: [[142, 44]],
   100: [[12, 44]],
+  200: [[344, 162]],
+  203: [[359, 162]],
+  210: [[328, 162]],
+  213: [[312, 162]],
 };
 
 const mushroomMinionAnimation = {
@@ -89,10 +92,11 @@ const flowerMinionAnimation = {
 };
 
 export function loadMarioSprite(game) {
-  return loadImage("./img/characters.gif").then((image) => {
+  return loadImage("./img/characters.png").then((image) => {
     const marioSprite = new AnimationSprite(image, game);
 
     marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
+    marioSprite.defineAnimation("doctor", { 1: [[378, 162]] }, 1, 1.5);
     marioSprite.defineAnimation(
       "mushroom-minion",
       mushroomMinionAnimation,
@@ -104,5 +108,3 @@ export function loadMarioSprite(game) {
     return marioSprite;
   });
 }
-
-export function loadFontSprite() {}
