@@ -8,6 +8,8 @@ export function loadBackgroundSprite() {
     const bgSprite = new SpriteSheet(image);
     bgSprite.defineTile("sky", 3, 23);
     bgSprite.defineTile("ground", 0, 0);
+    bgSprite.defineTileWithSize("cloud-1", 0, 20, 3, 2);
+    bgSprite.defineTileWithSize("cloud-2", 11, 20, 4, 2);
 
     bgSprite.defineTile("brick", 1, 0);
     bgSprite.defineTile("rock", 0, 1);
