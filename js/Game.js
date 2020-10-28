@@ -51,7 +51,7 @@ export default class Game {
 
   win(audioController) {
     this.isWin = true;
-    audioController.playMeow();
+    audioController.playWin();
 
     setTimeout(() => {
       this.state = GAME_STATE.WIN;

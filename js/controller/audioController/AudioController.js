@@ -47,7 +47,7 @@ export default class AudioController {
     this.playSong("gameOver");
   }
 
-  playMeow() {
-    this.playSong("meow");
+  playWin() {
+    this.playSong("win");
   }
 }
