@@ -8,10 +8,11 @@ import { specialFactory } from "../components/objects/factory/specialFactory.js"
 import { minionFactory } from "../components/entities/minions/factory/minionFactory.js";
 
 import {
-  setupCollisionDetector,
+  setupCollisionController,
   setupCompositor,
-  setupUpdateCenter,
+  setupUpdateController,
 } from "./setupControllers.js";
+import MainController from "./MainController.js";
 
 export function initialSetup(
   game,
@@ -22,6 +23,9 @@ export function initialSetup(
   marioSprite,
   levelData
 ) {
+  // create view port
+  const viewPort = new ViewPort(levelData.width, mario);
+
   // create objects
   const backgroundObj = bgFactory(levelData.background, bgSprite);
   const breakableObj = breakableFactory(levelData.breakable, bgSprite);
@@ -29,24 +33,23 @@ export function initialSetup(
   const specialObj = specialFactory(levelData.special, bgSprite);
   const minions = minionFactory(levelData.minions, marioSprite);
 
-  // create view port
-  const viewPort = new ViewPort(levelData.width, mario);
-
   // create compositor
-  const compositor = setupCompositor(ctx, viewPort, [
+  const layerObjectsSet = [
     backgroundObj,
     breakableObj,
     unbreakableObj,
     specialObj,
     minions,
     [mario],
-  ]);
+  ];
+  const compositor = setupCompositor(ctx, viewPort, layerObjectsSet);
 
-  // create updateCenter
-  const updateCenter = setupUpdateCenter(viewPort, [mario, ...minions]);
+  // create updateController
+  const updateController = setupUpdateController(viewPort, [mario, ...minions]);
 
   // create collision Detect
-  const collisionDetector = setupCollisionDetector(
+  const collisionController = setupCollisionController(
+    game,
     mario,
     audioController,
     [unbreakableObj, specialObj],
@@ -54,11 +57,14 @@ export function initialSetup(
     [minions]
   );
 
-  return new Timer(
+  // create main Controller
+  const mainController = new MainController(
     game,
     compositor,
-    updateCenter,
-    collisionDetector,
+    updateController,
+    collisionController,
     audioController
   );
+
+  return new Timer(game, mainController);
 }

@@ -1,19 +1,9 @@
 import { GAME_CONST, GAME_STATE } from "./math/gameConst.js";
 
 export default class Timer {
-  constructor(
-    game,
-    compositor,
-    updateCenter,
-    collisionDetector,
-    audioController
-  ) {
-    this.game = game;
-    this.compositor = compositor;
-    this.updateCenter = updateCenter;
-    this.collisionDetector = collisionDetector;
-    this.audioController = audioController;
-
+  constructor(game, mainController) {
+    this._mainController = mainController;
+    this._game = game;
     this._accumulatedTime = 0;
     this._lastTime = 0;
 
@@ -25,27 +15,23 @@ export default class Timer {
 
     while (this._accumulatedTime > GAME_CONST.DELTA_TIME) {
       this._accumulatedTime -= GAME_CONST.DELTA_TIME;
-
-      this.game.updateFrames(this.audioController);
-      this.updateCenter.update(this.game, this.audioController);
-      this.compositor.drawLayers(this.game);
-      this.collisionDetector.run(this.game, this.audioController);
+      this._mainController.update();
     }
 
-    if (this.game.state !== GAME_STATE.PLAYING) return;
+    if (this._game.state !== GAME_STATE.PLAYING) return;
 
     this._lastTime = time;
     requestAnimationFrame(this.updateProxy);
   }
 
   start() {
-    this.game.state = GAME_STATE.PLAYING;
+    this._game.state = GAME_STATE.PLAYING;
 
     this._accumulatedTime = 0;
     this._lastTime = performance.now();
-
     this.updateProxy(performance.now());
-    this.audioController.playTheme();
+
+    this._mainController.audioController.playTheme();
   }
 
   getReady() {

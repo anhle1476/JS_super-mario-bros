@@ -1,6 +1,6 @@
 import Game from "./Game.js";
 import Mario from "./components/entities/mario/Mario.js";
-import AudioController from "./controller/audioController/AudioController.js";
+import AudioController from "./controller/audio/AudioController.js";
 import Keyboard from "./input/keyboard/Keyboard.js";
 
 import { GAME_STATE } from "./math/gameConst.js";

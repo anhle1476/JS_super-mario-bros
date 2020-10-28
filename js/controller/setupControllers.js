@@ -1,6 +1,6 @@
 import Compositor from "./compositor/Compositor.js";
-import UpdateCenter from "./updateCenter/UpdateCenter.js";
-import CollisionDetector from "./collision/CollisionDetector.js";
+import UpdateController from "./update/UpdateController.js";
+import CollisionController from "./collision/CollisionController.js";
 
 import { createLayer } from "./layers/createLayer.js";
 
@@ -10,22 +10,27 @@ export function setupCompositor(ctx, viewPort, layerObjects) {
   return compositor;
 }
 
-export function setupUpdateCenter(viewPort, entities) {
-  const updateCenter = new UpdateCenter(viewPort);
-  entities.forEach((entities) => updateCenter.addEntity(entities));
-  return updateCenter;
+export function setupUpdateController(viewPort, entities) {
+  const updateController = new UpdateController(viewPort);
+  entities.forEach((entities) => updateController.addEntity(entities));
+  return updateController;
 }
 
-export function setupCollisionDetector(
+export function setupCollisionController(
+  game,
   mario,
   audioController,
   unbreakable,
   breakable,
   minions
 ) {
-  const collisionDetector = new CollisionDetector(mario, audioController);
-  unbreakable.forEach((set) => collisionDetector.addUnbreakableSet(set));
-  breakable.forEach((set) => collisionDetector.addBreakableSet(set));
-  minions.forEach((set) => collisionDetector.addMinionsSet(set));
-  return collisionDetector;
+  const collisionController = new CollisionController(
+    mario,
+    game,
+    audioController
+  );
+  unbreakable.forEach((set) => collisionController.addUnbreakableSet(set));
+  breakable.forEach((set) => collisionController.addBreakableSet(set));
+  minions.forEach((set) => collisionController.addMinionsSet(set));
+  return collisionController;
 }

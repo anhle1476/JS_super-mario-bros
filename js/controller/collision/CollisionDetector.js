@@ -1,185 +1,102 @@
 import { COLLISION } from "../../math/collision.js";
+import {
+  getMarioPosition,
+  getMinionPosition,
+  getObstaclePosition,
+} from "./collideUtilities.js";
+
+const INNER_LIMIT = {
+  TOP: 0.1,
+  SIDES: 0.15,
+  BOTTOM: 0.5,
+};
 
 export default class CollisionDetector {
-  constructor(mario) {
-    this.mario = mario;
-    this.unbreakable = [];
-    this.breakable = [];
-    this.minions = [];
+  constructor(game, audioController) {
+    this.game = game;
+    this.audioController = audioController;
   }
 
-  addUnbreakableSet(objectsSet) {
-    this.unbreakable = [...this.unbreakable, ...objectsSet];
+  getCollideStates(entity, entityPosition, obstacle, obstaclePosition) {
+    this.updateEntityData(entity, entityPosition);
+    this.updateObstacleData(obstacle, obstaclePosition);
+
+    return this.isOutOfRange()
+      ? COLLISION.OUT_OF_RANGE
+      : this.getCollideDirection();
   }
 
-  addBreakableSet(objectsSet) {
-    this.breakable = [...this.breakable, ...objectsSet];
+  updateEntityData(entity, [entX0, entY0, entX1, entY1]) {
+    this.entity = entity;
+
+    this.entX0 = entX0;
+    this.entY0 = entY0;
+    this.entX1 = entX1;
+    this.entY1 = entY1;
   }
 
-  addMinionsSet(objectsSet) {
-    this.minions = [...this.minions, ...objectsSet];
+  updateObstacleData(obstacle, [obsX0, obsY0, obsX1, obsY1]) {
+    this.obstacle = obstacle;
+
+    this.obsX0 = obsX0;
+    this.obsY0 = obsY0;
+    this.obsX1 = obsX1;
+    this.obsY1 = obsY1;
   }
 
-  getMarioPosition(ent) {
-    return [
-      ent.pos.x + 0.1,
-      ent.pos.y + 1 - ent.size.height,
-      ent.pos.x + ent.size.width - 0.1,
-      ent.pos.y + ent.size.height,
-    ];
+  isOutOfRange() {
+    return (
+      this.entY1 < this.obsY0 ||
+      this.entY0 > this.obsY1 ||
+      this.entX1 < this.obsX0 ||
+      this.entX0 > this.obsX1
+    );
   }
 
-  getEntPosition(ent) {
-    return [
-      ent.pos.x,
-      ent.pos.y + 1 - ent.size.height,
-      ent.pos.x + ent.size.width,
-      ent.pos.y + ent.size.height,
-    ];
-  }
-
-  run(game, audioController) {
-    this.marioCollisionDetect(game, audioController);
-    this.minionsCollisionDetect();
-  }
-
-  getObsPosition(obs) {
-    return [
-      obs.pos.x,
-      obs.pos.y,
-      obs.pos.x + obs.size.width,
-      obs.pos.y + obs.size.height,
-    ];
-  }
-
-  detectCollideReturnIsJump(
-    [entX0, entY0, entX1, entY1],
-    [obsX0, obsY0, obsX1, obsY1],
-    entity,
-    obstacle,
-    game,
-    audioController
-  ) {
-    if (entY1 < obsY0 || entY0 > obsY1 || entX1 < obsX0 || entX0 > obsX1) {
-      return true;
-    }
-
-    if (entY1 - obsY0 > 0.1) {
-      if (entX1 - obsX0 < 0.15) {
-        obstacle.collide(COLLISION.LEFT, entity, game, audioController);
-        return true;
+  getCollideDirection() {
+    if (this.isUnderTopLimit()) {
+      if (this.isCollideLeft()) {
+        this.handleCollide(COLLISION.LEFT);
+        return COLLISION.LEFT;
       }
 
-      if (obsX1 - entX0 < 0.15) {
-        obstacle.collide(COLLISION.RIGHT, entity, game, audioController);
-        return true;
+      if (this.isCollideRight()) {
+        this.handleCollide(COLLISION.RIGHT);
+        return COLLISION.RIGHT;
       }
     }
 
-    if (obsY1 - entY0 < 0.5) {
-      obstacle.collide(COLLISION.BOTTOM, entity, game, audioController);
-      return true;
+    if (this.isCollideBottom()) {
+      this.handleCollide(COLLISION.BOTTOM);
+      return COLLISION.BOTTOM;
     }
-    obstacle.collide(COLLISION.TOP, entity, game, audioController);
-    return false;
+
+    this.handleCollide(COLLISION.TOP);
+    return COLLISION.TOP;
   }
 
-  marioCollisionDetect(game, audioController) {
-    if (!this.mario.isAlive) return;
-    const marioPosition = this.getMarioPosition(this.mario);
-
-    let isJumping = true;
-
-    // for Unbreakable Object
-    this.unbreakable.forEach((object) => {
-      if (
-        !this.detectCollideReturnIsJump(
-          marioPosition,
-          this.getObsPosition(object),
-          this.mario,
-          object,
-          game,
-          audioController
-        )
-      )
-        isJumping = false;
-    });
-
-    // for Breakable Object
-    let removeIndex = -1;
-
-    this.breakable.forEach((object, index) => {
-      if (object.isExist) {
-        if (
-          !this.detectCollideReturnIsJump(
-            marioPosition,
-            this.getObsPosition(object),
-            this.mario,
-            object,
-            game,
-            audioController
-          )
-        )
-          isJumping = false;
-      } else {
-        removeIndex = index;
-      }
-    });
-
-    if (removeIndex >= 0) {
-      this.breakable.splice(removeIndex, 1);
-    }
-
-    // for minions
-    removeIndex = -1;
-
-    this.minions.forEach((minion, index) => {
-      if (minion.isActive) {
-        if (minion.isAlive) {
-          this.detectCollideReturnIsJump(
-            marioPosition,
-            this.getEntPosition(minion),
-            this.mario,
-            minion,
-            game,
-            audioController
-          );
-        } else {
-          removeIndex = index;
-        }
-      }
-    });
-
-    if (removeIndex >= 0) {
-      this.minions.splice(removeIndex, 1);
-    }
-
-    this.mario.isJump = isJumping;
+  handleCollide(direction) {
+    this.obstacle.collide(
+      direction,
+      this.entity,
+      this.game,
+      this.audioController
+    );
   }
 
-  minionsCollisionDetect() {
-    for (const minion of this.minions) {
-      if (!minion.isActive) continue;
+  isUnderTopLimit() {
+    return this.entY1 - this.obsY0 > INNER_LIMIT.TOP;
+  }
 
-      const minionPosition = this.getEntPosition(minion);
+  isCollideLeft() {
+    return this.entX1 - this.obsX0 < INNER_LIMIT.SIDES;
+  }
 
-      this.unbreakable.forEach((object) =>
-        this.detectCollideReturnIsJump(
-          minionPosition,
-          this.getObsPosition(object),
-          minion,
-          object
-        )
-      );
+  isCollideRight() {
+    return this.obsX1 - this.entX0 < INNER_LIMIT.SIDES;
+  }
 
-      this.breakable.forEach((object) =>
-        this.detectCollideReturnIsJump(
-          minionPosition,
-          this.getObsPosition(object),
-          minion,
-          object
-        )
-      );
-    }
+  isCollideBottom() {
+    return this.obsY1 - this.entY0 < INNER_LIMIT.BOTTOM;
   }
 }

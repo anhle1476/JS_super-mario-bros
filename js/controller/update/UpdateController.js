@@ -1,4 +1,4 @@
-export default class UpdateCenter {
+export default class UpdateController {
   constructor(viewPort) {
     this.viewPort = viewPort;
     this.entities = [];
