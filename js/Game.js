@@ -51,11 +51,11 @@ export default class Game {
 
   win(audioController) {
     this.isWin = true;
+    audioController.stopTheme();
     audioController.playWin();
 
     setTimeout(() => {
       this.state = GAME_STATE.WIN;
-      audioController.stopTheme();
     }, 10000);
   }
 }
