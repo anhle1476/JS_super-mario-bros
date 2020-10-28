@@ -1,9 +1,4 @@
 import { COLLISION } from "../../math/collision.js";
-import {
-  getMarioPosition,
-  getMinionPosition,
-  getObstaclePosition,
-} from "./collideUtilities.js";
 
 const INNER_LIMIT = {
   TOP: 0.1,
