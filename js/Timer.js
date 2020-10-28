@@ -35,6 +35,6 @@ export default class Timer {
   }
 
   getReady() {
-    this.game.drawGameReady();
+    this._game.drawGameReady();
   }
 }
