@@ -3,30 +3,27 @@ import AnimationSprite from "../controller/spriteSheet/AnimationSprite.js";
 
 import { loadImage } from "./resourceLoader.js";
 
-export function loadBackgroundSprite() {
-  return loadImage("./img/tiles.png").then((image) => {
-    const bgSprite = new SpriteSheet(image);
-    bgSprite.defineTile("sky", 3, 23);
-    bgSprite.defineTile("ground", 0, 0);
-    bgSprite.defineTileWithSize("cloud-1", 0, 20, 3, 2);
-    bgSprite.defineTileWithSize("cloud-2", 11, 20, 4, 2);
+export async function loadBackgroundSprite() {
+  const image = await loadImage("./img/tiles.png");
+  const bgSprite = new SpriteSheet(image);
 
-    bgSprite.defineTile("brick", 1, 0);
-    bgSprite.defineTile("rock", 0, 1);
+  bgSprite.defineTile("sky", 3, 23);
+  bgSprite.defineTile("ground", 0, 0);
+  bgSprite.defineTileWithSize("cloud-1", 0, 20, 3, 2);
+  bgSprite.defineTileWithSize("cloud-2", 11, 20, 4, 2);
+  bgSprite.defineTile("brick", 1, 0);
+  bgSprite.defineTile("rock", 0, 1);
+  bgSprite.defineTile("coin-box-3", 24, 0);
+  bgSprite.defineTile("coin-box-2", 25, 0);
+  bgSprite.defineTile("coin-box-1", 26, 0);
+  bgSprite.defineTile("coin-box-0", 27, 0);
+  bgSprite.defineTile("coin-3", 24, 1);
+  bgSprite.defineTile("coin-2", 25, 1);
+  bgSprite.defineTile("coin-1", 26, 1);
+  bgSprite.defineTileWithSize("vertical-pipe-head", 0, 8, 2, 1);
+  bgSprite.defineTileWithSize("vertical-pipe-body", 0, 9, 2, 1);
 
-    bgSprite.defineTile("coin-box-3", 24, 0);
-    bgSprite.defineTile("coin-box-2", 25, 0);
-    bgSprite.defineTile("coin-box-1", 26, 0);
-    bgSprite.defineTile("coin-box-0", 27, 0);
-    bgSprite.defineTile("coin-3", 24, 1);
-    bgSprite.defineTile("coin-2", 25, 1);
-    bgSprite.defineTile("coin-1", 26, 1);
-
-    bgSprite.defineTileWithSize("vertical-pipe-head", 0, 8, 2, 1);
-    bgSprite.defineTileWithSize("vertical-pipe-body", 0, 9, 2, 1);
-
-    return bgSprite;
-  });
+  return bgSprite;
 }
 
 /**
@@ -93,20 +90,14 @@ const flowerMinionAnimation = {
   ],
 };
 
-export function loadMarioSprite(game) {
-  return loadImage("./img/characters.png").then((image) => {
-    const marioSprite = new AnimationSprite(image, game);
+export async function loadMarioSprite(game) {
+  const image = await loadImage("./img/characters.png");
+  const marioSprite = new AnimationSprite(image, game);
 
-    marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
-    marioSprite.defineAnimation("doctor", { 1: [[378, 162]] }, 1, 1.5);
-    marioSprite.defineAnimation(
-      "mushroom-minion",
-      mushroomMinionAnimation,
-      1,
-      1
-    );
-    marioSprite.defineAnimation("flower-minion", flowerMinionAnimation, 1, 2);
+  marioSprite.defineAnimation("mario", marioAnimation, 1, 1);
+  marioSprite.defineAnimation("doctor", { 1: [[378, 162]] }, 1, 1.5);
+  marioSprite.defineAnimation("mushroom-minion", mushroomMinionAnimation, 1, 1);
+  marioSprite.defineAnimation("flower-minion", flowerMinionAnimation, 1, 2);
 
-    return marioSprite;
-  });
+  return marioSprite;
 }

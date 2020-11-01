@@ -1,7 +1,7 @@
-import Object from "./Object.js";
-import { COLLISION } from "../../math/collision.js";
+import Object from "../Object.js";
+import { COLLISION } from "../../../math/collision.js";
 
-import { normalCollide } from "../../controller/collision/collideBehaviour.js";
+import { normalCollide } from "../../../controller/collision/collideBehaviour.js";
 
 export default class Unbreakable extends Object {
   constructor(spriteSheet, name, posX, posY, width, height) {

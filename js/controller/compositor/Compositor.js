@@ -1,4 +1,8 @@
 import { GAME_STATE } from "../../math/gameConst.js";
+const CANVAS_SIZE = {
+  WIDTH: 390,
+  HEIGHT: 240,
+};
 
 export default class Compositor {
   constructor(ctx, viewPort) {
@@ -12,13 +16,21 @@ export default class Compositor {
   }
 
   drawLayers(game) {
+    this.clearCanvas();
     this.layers.forEach((layer) =>
       layer.drawObjects(this.ctx, this.viewPort.base)
     );
+    this.drawCurrentGameState(game);
+  }
 
+  clearCanvas() {
+    this.ctx.clearRect(0, 0, CANVAS_SIZE.WIDTH, CANVAS_SIZE.HEIGHT);
+  }
+
+  drawCurrentGameState(game) {
     switch (game.state) {
       case GAME_STATE.PLAYING:
-        this.drawGameState(game);
+        this.drawTimeAndScore(game);
         if (game.isWin) this.drawStory();
         break;
       case GAME_STATE.GAME_OVER:
@@ -30,7 +42,7 @@ export default class Compositor {
     }
   }
 
-  drawGameState(game) {
+  drawTimeAndScore(game) {
     this.ctx.font = "8px normal";
     this.ctx.fillText(`SCORE: ${game.score}`, 16, 16);
     this.ctx.fillText(`TIME: ${game.timeLeft}`, 300, 16);

@@ -1,4 +1,4 @@
-import Brick from "../brick/Brick.js";
+import Brick from "../breakable/brick/Brick.js";
 
 export function breakableFactory(data, sprite) {
   const objects = [];

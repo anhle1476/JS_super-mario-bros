@@ -7,6 +7,7 @@ export default class Object {
     this.pos = new Vector(posX, posY);
     this.size = new Size(width, height);
     this.buffer = this.createObjectBuffer(spriteSheet, name, width, height);
+    this.rightSidePosX = this.pos.x + this.size.width;
   }
 
   createObjectBuffer(spriteSheet, name, width, height) {
@@ -14,6 +15,11 @@ export default class Object {
   }
 
   draw(ctx, base) {
+    if (this.isOutOfDrawingRange(base)) return;
     ctx.drawImage(this.buffer, (this.pos.x - base) * 16, this.pos.y * 16);
+  }
+
+  isOutOfDrawingRange(base) {
+    return this.pos.x > base + 25.5 || this.rightSidePosX < base - 0.5;
   }
 }

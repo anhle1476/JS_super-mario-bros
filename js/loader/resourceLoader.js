@@ -6,13 +6,11 @@ export const loadImage = (url) => {
   });
 };
 
-export const loadAudio = (url) => {
-  return fetch(url)
-    .then((response) => response.arrayBuffer())
-    .then((buffer) => {
-      const context = new AudioContext();
-      return context.decodeAudioData(buffer);
-    });
+export const loadAudio = async (url) => {
+  const response = await fetch(url);
+  const buffer = await response.arrayBuffer();
+  const context = new AudioContext();
+  return context.decodeAudioData(buffer);
 };
 
 export const loadLevel = (level) =>

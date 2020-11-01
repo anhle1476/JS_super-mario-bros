@@ -1,5 +1,5 @@
 import Unbreakable from "../Unbreakable.js";
-import { createBuffer } from "../../../utilities/createBuffer.js";
+import { createBuffer } from "../../../../utilities/createBuffer.js";
 
 export default class Pipe extends Unbreakable {
   constructor(spriteSheet, posX, posY, height) {
