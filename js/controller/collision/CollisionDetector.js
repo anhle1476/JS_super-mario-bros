@@ -16,9 +16,11 @@ export default class CollisionDetector {
     this.updateEntityData(entity, entityPosition);
     this.updateObstacleData(obstacle, obstaclePosition);
 
-    return this.isOutOfRange()
-      ? COLLISION.OUT_OF_RANGE
-      : this.getCollideDirection();
+    if (this.isOutOfRange()) return COLLISION.OUT_OF_RANGE;
+
+    const collideDirection = this.getCollideDirection();
+    this.handleCollide(collideDirection);
+    return collideDirection;
   }
 
   updateEntityData(entity, [entX0, entY0, entX1, entY1]) {
@@ -51,22 +53,18 @@ export default class CollisionDetector {
   getCollideDirection() {
     if (this.isUnderTopLimit()) {
       if (this.isCollideLeft()) {
-        this.handleCollide(COLLISION.LEFT);
         return COLLISION.LEFT;
       }
 
       if (this.isCollideRight()) {
-        this.handleCollide(COLLISION.RIGHT);
         return COLLISION.RIGHT;
       }
     }
 
     if (this.isCollideBottom()) {
-      this.handleCollide(COLLISION.BOTTOM);
       return COLLISION.BOTTOM;
     }
 
-    this.handleCollide(COLLISION.TOP);
     return COLLISION.TOP;
   }
 
