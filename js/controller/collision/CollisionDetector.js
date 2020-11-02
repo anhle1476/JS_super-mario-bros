@@ -13,28 +13,24 @@ export default class CollisionDetector {
   }
 
   getCollideStates(entity, entityPosition, obstacle, obstaclePosition) {
-    this.updateEntityData(entity, entityPosition);
-    this.updateObstacleData(obstacle, obstaclePosition);
+    this.updateEntityData(entityPosition);
+    this.updateObstacleData(obstaclePosition);
 
     if (this.isOutOfRange()) return COLLISION.OUT_OF_RANGE;
 
     const collideDirection = this.getCollideDirection();
-    this.handleCollide(collideDirection);
+    this.handleCollide(entity, obstacle, collideDirection);
     return collideDirection;
   }
 
-  updateEntityData(entity, [entX0, entY0, entX1, entY1]) {
-    this.entity = entity;
-
+  updateEntityData([entX0, entY0, entX1, entY1]) {
     this.entX0 = entX0;
     this.entY0 = entY0;
     this.entX1 = entX1;
     this.entY1 = entY1;
   }
 
-  updateObstacleData(obstacle, [obsX0, obsY0, obsX1, obsY1]) {
-    this.obstacle = obstacle;
-
+  updateObstacleData([obsX0, obsY0, obsX1, obsY1]) {
     this.obsX0 = obsX0;
     this.obsY0 = obsY0;
     this.obsX1 = obsX1;
@@ -68,13 +64,8 @@ export default class CollisionDetector {
     return COLLISION.TOP;
   }
 
-  handleCollide(direction) {
-    this.obstacle.collide(
-      direction,
-      this.entity,
-      this.game,
-      this.audioController
-    );
+  handleCollide(entity, obstacle, direction) {
+    obstacle.collide(direction, entity, this.game, this.audioController);
   }
 
   isUnderTopLimit() {
