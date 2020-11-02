@@ -23,26 +23,26 @@ export default class CollisionDetector {
     return collideDirection;
   }
 
-  updateEntityData([entX0, entY0, entX1, entY1]) {
-    this.entX0 = entX0;
-    this.entY0 = entY0;
-    this.entX1 = entX1;
-    this.entY1 = entY1;
+  updateEntityData([entTop, entLeft, entBottom, entRight]) {
+    this.entTop = entTop;
+    this.entLeft = entLeft;
+    this.entBottom = entBottom;
+    this.entRight = entRight;
   }
 
-  updateObstacleData([obsX0, obsY0, obsX1, obsY1]) {
-    this.obsX0 = obsX0;
-    this.obsY0 = obsY0;
-    this.obsX1 = obsX1;
-    this.obsY1 = obsY1;
+  updateObstacleData([obsTop, obsLeft, obsBottom, obsRight]) {
+    this.obsTop = obsTop;
+    this.obsLeft = obsLeft;
+    this.obsBottom = obsBottom;
+    this.obsRight = obsRight;
   }
 
   isOutOfRange() {
     return (
-      this.entY1 < this.obsY0 ||
-      this.entY0 > this.obsY1 ||
-      this.entX1 < this.obsX0 ||
-      this.entX0 > this.obsX1
+      this.entRight < this.obsLeft ||
+      this.entLeft > this.obsRight ||
+      this.entBottom < this.obsTop ||
+      this.entTop > this.obsBottom
     );
   }
 
@@ -51,7 +51,6 @@ export default class CollisionDetector {
       if (this.isCollideLeft()) return COLLISION.LEFT;
       if (this.isCollideRight()) return COLLISION.RIGHT;
     }
-
     return this.isCollideBottom() ? COLLISION.BOTTOM : COLLISION.TOP;
   }
 
@@ -60,18 +59,18 @@ export default class CollisionDetector {
   }
 
   isUnderTopLimit() {
-    return this.entY1 - this.obsY0 > INNER_LIMIT.TOP;
+    return this.entRight - this.obsLeft > INNER_LIMIT.TOP;
   }
 
   isCollideLeft() {
-    return this.entX1 - this.obsX0 < INNER_LIMIT.SIDES;
+    return this.entBottom - this.obsTop < INNER_LIMIT.SIDES;
   }
 
   isCollideRight() {
-    return this.obsX1 - this.entX0 < INNER_LIMIT.SIDES;
+    return this.obsBottom - this.entTop < INNER_LIMIT.SIDES;
   }
 
   isCollideBottom() {
-    return this.obsY1 - this.entY0 < INNER_LIMIT.BOTTOM;
+    return this.obsRight - this.entLeft < INNER_LIMIT.BOTTOM;
   }
 }

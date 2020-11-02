@@ -16,40 +16,40 @@ export default class CollisionController {
     this.minions = [];
   }
 
-  _addSet(originalSet, newSet) {
+  addSet(originalSet, newSet) {
     originalSet.push(...newSet);
   }
 
   addUnbreakableSet(objectsSet) {
-    this._addSet(this.unbreakable, objectsSet);
+    this.addSet(this.unbreakable, objectsSet);
   }
 
   addBreakableSet(objectsSet) {
-    this._addSet(this.breakable, objectsSet);
+    this.addSet(this.breakable, objectsSet);
   }
 
   addMinionsSet(objectsSet) {
-    this._addSet(this.minions, objectsSet);
+    this.addSet(this.minions, objectsSet);
   }
 
   run() {
-    this._marioCollisionDetect();
-    this._minionsCollisionDetect();
+    this.marioCollisionDetect();
+    this.minionsCollisionDetect();
   }
 
-  _updateMarioPosition() {
+  updateMarioPosition() {
     this.marioPosition = getMarioPosition(this.mario);
   }
 
-  _marioCollisionDetect() {
+  marioCollisionDetect() {
     if (!this.mario.isAlive) return;
-    this._updateMarioPosition();
+    this.updateMarioPosition();
 
     let isJumping = true;
 
     // for Unbreakable Object
     this.unbreakable.forEach((object) => {
-      if (this._handleCollisionAndReturnIsJump(object)) isJumping = false;
+      if (this.handleCollisionAndReturnIsJump(object)) isJumping = false;
     });
 
     // for Breakable Object
@@ -57,10 +57,10 @@ export default class CollisionController {
 
     this.breakable.forEach((object, index) => {
       if (!object.isExist) return (removeIndex = index);
-      if (this._handleCollisionAndReturnIsJump(object)) isJumping = false;
+      if (this.handleCollisionAndReturnIsJump(object)) isJumping = false;
     });
 
-    this._removeUnusedSetItem(this.breakable, removeIndex);
+    this.removeUnusedSetItem(this.breakable, removeIndex);
 
     // for minions
     removeIndex = -1;
@@ -68,27 +68,27 @@ export default class CollisionController {
     this.minions.forEach((minion, index) => {
       if (!minion.isActive) return;
       if (!minion.isAlive) return (removeIndex = index);
-      this._handleMarioCollision(minion, getMinionPosition(minion));
+      this.handleMarioCollision(minion, getMinionPosition(minion));
     });
 
-    this._removeUnusedSetItem(this.minions, removeIndex);
+    this.removeUnusedSetItem(this.minions, removeIndex);
 
     this.mario.isJump = isJumping;
   }
 
-  _minionsCollisionDetect() {
+  minionsCollisionDetect() {
     for (const minion of this.minions) {
       if (!minion.isActive) continue;
 
       const minionPosition = getMinionPosition(minion);
 
-      this._handleMinionCollideWithObstacleSet(
+      this.handleMinionCollideWithObstacleSet(
         this.unbreakable,
         minion,
         minionPosition
       );
 
-      this._handleMinionCollideWithObstacleSet(
+      this.handleMinionCollideWithObstacleSet(
         this.breakable,
         minion,
         minionPosition
@@ -96,7 +96,7 @@ export default class CollisionController {
     }
   }
 
-  _handleMinionCollideWithObstacleSet(obstaclesSet, minion, minionPosition) {
+  handleMinionCollideWithObstacleSet(obstaclesSet, minion, minionPosition) {
     obstaclesSet.forEach((obstacle) =>
       this.detector.getCollideStates(
         minion,
@@ -107,14 +107,14 @@ export default class CollisionController {
     );
   }
 
-  _handleCollisionAndReturnIsJump(object) {
+  handleCollisionAndReturnIsJump(object) {
     return (
-      this._handleMarioCollision(object, getObstaclePosition(object)) ===
+      this.handleMarioCollision(object, getObstaclePosition(object)) ===
       COLLISION.TOP
     );
   }
 
-  _handleMarioCollision(obstacle, obstaclePosition) {
+  handleMarioCollision(obstacle, obstaclePosition) {
     return this.detector.getCollideStates(
       this.mario,
       this.marioPosition,
@@ -123,7 +123,7 @@ export default class CollisionController {
     );
   }
 
-  _removeUnusedSetItem(set, removeIndex) {
+  removeUnusedSetItem(set, removeIndex) {
     if (removeIndex >= 0) {
       set.splice(removeIndex, 1);
     }
