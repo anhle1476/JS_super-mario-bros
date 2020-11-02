@@ -48,20 +48,11 @@ export default class CollisionDetector {
 
   getCollideDirection() {
     if (this.isUnderTopLimit()) {
-      if (this.isCollideLeft()) {
-        return COLLISION.LEFT;
-      }
-
-      if (this.isCollideRight()) {
-        return COLLISION.RIGHT;
-      }
+      if (this.isCollideLeft()) return COLLISION.LEFT;
+      if (this.isCollideRight()) return COLLISION.RIGHT;
     }
 
-    if (this.isCollideBottom()) {
-      return COLLISION.BOTTOM;
-    }
-
-    return COLLISION.TOP;
+    return this.isCollideBottom() ? COLLISION.BOTTOM : COLLISION.TOP;
   }
 
   handleCollide(entity, obstacle, direction) {
